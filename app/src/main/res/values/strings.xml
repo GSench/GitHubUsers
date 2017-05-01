@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GitHubUsers</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="write_permission_msg">Get write permission</string>
+    <string name="write_permission_denied">Permission denied</string>
 </resources>

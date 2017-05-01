@@ -1,4 +1,4 @@
-package ru.gsench.githubusers.presentation;
+package ru.gsench.githubusers.presentation.view.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
