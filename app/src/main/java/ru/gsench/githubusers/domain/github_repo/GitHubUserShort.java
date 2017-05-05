@@ -1,5 +1,6 @@
 package ru.gsench.githubusers.domain.github_repo;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -10,9 +11,6 @@ public class GitHubUserShort {
 
     private int id;
     private String login;
-    private URL url;
-    private URL htmlUrl;
-    private URL avatar;
 
     public int getId() {
         return id;
@@ -22,24 +20,45 @@ public class GitHubUserShort {
         return login;
     }
 
+    public GitHubUserShort(int id, String login){
+        this.id=id;
+        this.login=login;
+    }
+
     public URL getUrl() {
-        return url;
+        try {
+            return new URL("https://api.github.com/users/"+login);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public URL getHtmlUrl() {
-        return htmlUrl;
+        try {
+            return new URL("https://github.com/"+login);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public URL getAvatar() {
-        return avatar;
+        try {
+            return new URL("https://avatars0.githubusercontent.com/u/"+id+"?v=3");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public GitHubUserShort(int id, String login, URL url, URL htmlUrl, URL avatar){
-        this.id=id;
-        this.login=login;
-        this.url=url;
-        this.htmlUrl=htmlUrl;
-        this.avatar=avatar;
+    public URL getRepositories(){
+        try {
+            return new URL("https://api.github.com/users/"+login+"/repos");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

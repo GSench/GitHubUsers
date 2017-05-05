@@ -4,7 +4,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import ru.gsench.passwordmanager.domain.utils.function;
+import ru.gsench.githubusers.domain.utils.function;
 
 /**
  * Created by grish on 25.03.2017.

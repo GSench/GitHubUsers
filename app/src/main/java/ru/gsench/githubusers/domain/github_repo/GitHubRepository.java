@@ -1,5 +1,6 @@
 package ru.gsench.githubusers.domain.github_repo;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
@@ -14,8 +15,6 @@ public class GitHubRepository {
     private GitHubUserShort owner;
     private boolean privateRepo;
     private boolean fork;
-    private URL url;
-    private URL htmlUrl;
     private String description;
     private String language;
     private int forks;
@@ -23,14 +22,12 @@ public class GitHubRepository {
     private Date updatedAt;
     private int stars;
 
-    public GitHubRepository(int id, String name, GitHubUserShort owner, boolean privateRepo, boolean fork, URL url, URL htmlUrl, String description, String language, int forks, Date createdAt, Date updatedAt, int stars) {
+    public GitHubRepository(int id, String name, GitHubUserShort owner, boolean privateRepo, boolean fork, String description, String language, int forks, Date createdAt, Date updatedAt, int stars) {
         this.id = id;
         this.name = name;
         this.owner = owner;
         this.privateRepo = privateRepo;
         this.fork = fork;
-        this.url = url;
-        this.htmlUrl = htmlUrl;
         this.description = description;
         this.language = language;
         this.forks = forks;
@@ -60,11 +57,21 @@ public class GitHubRepository {
     }
 
     public URL getUrl() {
-        return url;
+        try {
+            return new URL("https://api.github.com/repos/"+owner.getLogin()+"/"+name);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public URL getHtmlUrl() {
-        return htmlUrl;
+        try {
+            return new URL("https://github.com/"+owner.getLogin()+"/"+name);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public String getDescription() {

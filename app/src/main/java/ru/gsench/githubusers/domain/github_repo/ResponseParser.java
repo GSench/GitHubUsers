@@ -38,10 +38,7 @@ public class ResponseParser {
     private static GitHubUserShort initUserShort(JsonObject user) throws Exception {
         int id = user.get("id").getAsInt();
         String login = user.get("login").getAsString();
-        URL url = new URL(user.get("url").getAsString());
-        URL htmlURL = new URL(user.get("html_url").getAsString());
-        URL avatar = new URL(user.get("avatar_url").getAsString());
-        return new GitHubUserShort(id, login, url, htmlURL, avatar);
+        return new GitHubUserShort(id, login);
     }
 
     public static ArrayList<GitHubRepository> parseRepositories(String response) throws Exception {
@@ -67,8 +64,6 @@ public class ResponseParser {
             owner = initUserShort(rawRepo.get("owner").getAsJsonObject());
             privateRepo = rawRepo.get("private").getAsBoolean();
             fork = rawRepo.get("fork").getAsBoolean();
-            url = new URL(rawRepo.get("url").getAsString());
-            htmlUrl = new URL(rawRepo.get("html_url").getAsString());
             desc = rawRepo.get("description").getAsString();
             lang = rawRepo.get("language").getAsString();
             forks = rawRepo.get("forks").getAsInt();
@@ -76,7 +71,7 @@ public class ResponseParser {
             created = githubDateFormat.parse(mainObject.get("created_at").getAsString());
             updated = githubDateFormat.parse(mainObject.get("updated_at").getAsString());
             result.add(new GitHubRepository(
-                    id, name, owner, privateRepo, fork, url, htmlUrl, desc, lang, forks, created, updated, stars));
+                    id, name, owner, privateRepo, fork, desc, lang, forks, created, updated, stars));
         }
         return result;
     }

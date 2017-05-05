@@ -1,6 +1,5 @@
 package ru.gsench.githubusers.domain.github_repo;
 
-import java.net.URL;
 import java.util.Date;
 
 /**
@@ -9,8 +8,8 @@ import java.util.Date;
 
 public class GitHubUser extends GitHubUserShort {
 
-    public GitHubUser(int id, String login, URL url, URL htmlUrl, URL avatar, String bio, String location, String email, String company, String name, Date createdAt, Date updatedAt) {
-        super(id, login, url, htmlUrl, avatar);
+    public GitHubUser(int id, String login, String bio, String location, String email, String company, String name, Date createdAt, Date updatedAt) {
+        super(id, login);
         this.bio = bio;
         this.location = location;
         this.email = email;
@@ -21,7 +20,7 @@ public class GitHubUser extends GitHubUserShort {
     }
 
     public GitHubUser(GitHubUserShort userShort, String bio, String location, String email, String company, String name, Date createdAt, Date updatedAt){
-        super(userShort.getId(), userShort.getLogin(), userShort.getUrl(), userShort.getHtmlUrl(), userShort.getAvatar());
+        super(userShort.getId(), userShort.getLogin());
         this.bio = bio;
         this.location = location;
         this.email = email;
