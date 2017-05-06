@@ -14,7 +14,6 @@ public class UserListPresenter {
 
     private final int limit = 30;
     private final int padding = 20;
-    private int offset = 0;
 
     private UserListUseCase interactor;
 
@@ -30,17 +29,17 @@ public class UserListPresenter {
 
     public void start(){
         view.init();
-        offset = 0;
-        interactor.updateList(limit, offset, this);
+        interactor.updateList(limit, 0, this);
     }
 
     public void addUsers(ArrayList<GitHubUserShort> users){
-        offset+=users.size();
         view.addUsers(users);
     }
 
     public void scrolled(int visibleItemCount, int totalItemCount, int pastVisibleItems){
+        if (visibleItemCount + pastVisibleItems + padding >= totalItemCount) {
 
+        }
     }
 
 }
