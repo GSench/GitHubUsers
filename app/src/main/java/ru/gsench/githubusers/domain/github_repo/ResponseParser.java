@@ -4,8 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.net.URI;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,7 +50,6 @@ public class ResponseParser {
         String name, desc, lang;
         boolean privateRepo, fork;
         GitHubUserShort owner;
-        URL url, htmlUrl;
         Date created, updated;
 
         JsonObject rawRepo;
