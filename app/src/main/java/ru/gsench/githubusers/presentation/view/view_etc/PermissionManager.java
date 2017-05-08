@@ -39,9 +39,9 @@ public class PermissionManager {
                             dialogInterface.cancel();
                             ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE);
                             onOKFunction = doAfter;
-                            lastPermission = new function() {
+                            lastPermission = new function<Void>() {
                                 @Override
-                                public void run(String... params) {
+                                public void run(Void... params) {
                                     requestBasePermissions(act, doAfter);
                                 }
                             };

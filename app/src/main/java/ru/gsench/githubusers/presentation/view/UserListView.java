@@ -12,5 +12,8 @@ public interface UserListView {
 
     public void init();
     public void addUsers(ArrayList<GitHubUserShort> users);
-
+    public void clearList();
+    public void showLoadingError();
+    public void showParseError();
+    public void showUnexpectedError();
 }

@@ -3,7 +3,6 @@ package ru.gsench.githubusers.domain.github_repo;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -119,9 +118,6 @@ public class ResponseParserTest {
         for(int i=0; i<expected.size(); i++){
             Assert.assertEquals(expected.get(i).getId(), result.get(i).getId());
             Assert.assertEquals(expected.get(i).getLogin(), result.get(i).getLogin());
-            Assert.assertEquals(expected.get(i).getUrl(), result.get(i).getUrl());
-            Assert.assertEquals(expected.get(i).getHtmlUrl(), result.get(i).getHtmlUrl());
-            Assert.assertEquals(expected.get(i).getAvatar(), result.get(i).getAvatar());
         }
     }
 
