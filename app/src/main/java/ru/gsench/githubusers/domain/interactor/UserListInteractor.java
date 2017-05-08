@@ -94,7 +94,7 @@ public class UserListInteractor implements UserListUseCase {
 
     private void present(function<Void> result, String forRequest){
         if(query==null||!query.equals(forRequest)) return; //checking that results are up to date
-        result.run(); //performing results
+        system.doOnForeground(result); //performing results
     }
 
     @Override
