@@ -34,6 +34,7 @@ public class UserPresenter {
     }
 
     private void updateUser(){
+        view.showLoading();
         GitHubUserShort userShort = interactor.getUserShort();
         view.setUserShort(userShort);
         interactor.getUser(this);
@@ -48,6 +49,7 @@ public class UserPresenter {
 
     public void onReposReceived(ArrayList<GitHubRepository> repos){
         this.repos=repos;
+        view.hideLoading();
         if(pinnedRepos==null) view.setRepositories(repos);
         else updateReposWithPinned();
     }

@@ -19,4 +19,6 @@ public interface UserView {
     public void showLoadingError();
     public void showParseError();
     public void showUnexpectedError();
+    public void showLoading();
+    public void hideLoading();
 }
