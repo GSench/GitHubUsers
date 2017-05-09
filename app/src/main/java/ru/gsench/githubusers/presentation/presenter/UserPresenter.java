@@ -17,6 +17,7 @@ public class UserPresenter {
     private UserUseCase interactor;
     private UserView view;
 
+    private GitHubUser user;
     private ArrayList<GitHubRepository> repos;
     private ArrayList<GitHubRepository> pinnedRepos;
 
@@ -44,12 +45,14 @@ public class UserPresenter {
     }
 
     public void onUserReceived(GitHubUser user){
+        this.user=user;
         view.setUser(user);
+        if(repos!=null) view.hideLoading();
     }
 
     public void onReposReceived(ArrayList<GitHubRepository> repos){
         this.repos=repos;
-        view.hideLoading();
+        if(user!=null) view.hideLoading();
         if(pinnedRepos==null) view.setRepositories(repos);
         else updateReposWithPinned();
     }
