@@ -84,7 +84,7 @@ public class ResponseParser {
         }
     }
 
-    static GitHubUser parseUser(String response) throws ParseException {
+    public static GitHubUser parseUser(String response) throws ParseException {
         try {
             JsonParser parser = new JsonParser();
             JsonObject mainObject = parser.parse(response).getAsJsonObject();

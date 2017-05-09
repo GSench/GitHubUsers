@@ -66,4 +66,8 @@ public class UserListPresenter {
         view.showParseError();
     }
 
+    public void onBackPressed(){
+        view.closeView();
+    }
+
 }
