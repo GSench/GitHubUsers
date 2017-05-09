@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -62,14 +63,29 @@ public class AndroidInterface implements SystemInterface {
             }
         }
         try {
+            //Opening input stream
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+
+            //getting response parameters
             int responseCode = urlConnection.getResponseCode();
-            Map<String, List<String>> headers = urlConnection.getHeaderFields();
+            Iterator<Map.Entry<String, List<String>>> headers = urlConnection.getHeaderFields().entrySet().iterator();
+
+            //proceeding response parameters
+            HttpParams response = new HttpParams();
+            ArrayList<Pair<String, String>> headersParam = new ArrayList<>();
+            while (headers.hasNext()){
+                Map.Entry<String, List<String>> entry = headers.next();
+                headersParam.add(new Pair<>(entry.getKey(), entry.getValue().get(0)));
+            }
+            response.setHeaders(headersParam);
+            response.setResultCode(responseCode);
+
+            //reading input stream
             int available = in.available();
             if(available==0)
-                return new Pair<>(readByByte(in), null);
+                return new Pair<>(readByByte(in), response);
             else
-                return new Pair<>(IOUtils.readFully(in, in.available()), null);
+                return new Pair<>(IOUtils.readFully(in, in.available()), response);
         } finally {
             urlConnection.disconnect();
         }
