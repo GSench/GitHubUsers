@@ -21,9 +21,9 @@ public class UserInteractor implements UserUseCase {
 
     private SystemInterface system;
     private GitHubUserShort userShort;
-    private function<Void> openInBrowser;
+    private function<GitHubUserShort> openInBrowser;
 
-    public UserInteractor(SystemInterface system, GitHubUserShort userShort, function<Void> openInBrowser) {
+    public UserInteractor(SystemInterface system, GitHubUserShort userShort, function<GitHubUserShort> openInBrowser) {
         this.system = system;
         this.userShort=userShort;
         this.openInBrowser=openInBrowser;
@@ -121,6 +121,6 @@ public class UserInteractor implements UserUseCase {
 
     @Override
     public void openInBrowser() {
-        openInBrowser.run();
+        openInBrowser.run(userShort);
     }
 }
