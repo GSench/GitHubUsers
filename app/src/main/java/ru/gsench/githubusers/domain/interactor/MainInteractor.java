@@ -25,6 +25,8 @@ public class MainInteractor {
 
     public void onSearchInput(String text) {
         initUserListInteractor();
+        text = text.trim();
+        if(text.equals("")) return;
         userListInteractor.searchFor(text);
     }
 

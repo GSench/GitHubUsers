@@ -1,9 +1,5 @@
 package ru.gsench.githubusers.presentation.view;
 
-import java.util.ArrayList;
-
-import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
-
 /**
  * Created by grish on 01.04.2017.
  */
@@ -11,7 +7,7 @@ import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
 public interface UserListView {
 
     public void init();
-    public void addUsers(ArrayList<GitHubUserShort> users);
+    public void notifyUsersAdded(int offset, int count);
     public void clearList();
     public void showLoadingError();
     public void showParseError();

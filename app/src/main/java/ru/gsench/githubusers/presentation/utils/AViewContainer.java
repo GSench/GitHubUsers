@@ -1,7 +1,5 @@
 package ru.gsench.githubusers.presentation.utils;
 
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 
 import ru.gsench.githubusers.domain.utils.function;
@@ -37,12 +35,12 @@ public class AViewContainer {
 
     protected void openView(AView view){
         closeView();
-        view.getView().setOnTouchListener(new View.OnTouchListener() {
+        /**view.getView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 return true;
             }
-        });
+        });*/
         container.addView(view.getView(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view.start();
         if(onOpen!=null) onOpen.run();

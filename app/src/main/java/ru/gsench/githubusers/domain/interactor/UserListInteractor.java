@@ -101,4 +101,9 @@ public class UserListInteractor implements UserListUseCase {
     public void openUser(GitHubUserShort user) {
         onOpenUser.run(user);
     }
+
+    @Override
+    public void addToFavor(GitHubUserShort user) {
+        //TODO
+    }
 }

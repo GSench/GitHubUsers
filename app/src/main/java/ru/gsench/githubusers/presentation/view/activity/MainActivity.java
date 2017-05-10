@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
+import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 
 import java.net.URL;
 
@@ -15,7 +16,9 @@ import ru.gsench.githubusers.presentation.AndroidInterface;
 import ru.gsench.githubusers.presentation.presenter.CoordinatorPresenter;
 import ru.gsench.githubusers.presentation.presenter.UserListPresenter;
 import ru.gsench.githubusers.presentation.presenter.UserPresenter;
+import ru.gsench.githubusers.presentation.utils.AViewContainer;
 import ru.gsench.githubusers.presentation.view.CoordinatorView;
+import ru.gsench.githubusers.presentation.view.aview.UserListAView;
 import ru.gsench.githubusers.presentation.view.view_etc.AnimationManager;
 import ru.gsench.githubusers.presentation.view.view_etc.PermissionManager;
 import ru.gsench.githubusers.presentation.viewholder.MainViewHolder;
@@ -59,6 +62,17 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
                 //viewHolder.searchView.swapSuggestions(newQuery);
             }
         });
+        viewHolder.searchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+            @Override
+            public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
+
+            }
+
+            @Override
+            public void onSearchAction(String currentQuery) {
+                presenter.onSearchInput(currentQuery);
+            }
+        });
     }
 
     @Override
@@ -68,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
 
     @Override
     public void openUserList(UserListPresenter presenter) {
-
+        new UserListAView(new AViewContainer(viewHolder.userSearchContent), presenter).open();
     }
 
     @Override

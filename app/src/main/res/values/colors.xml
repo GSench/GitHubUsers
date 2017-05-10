@@ -12,5 +12,5 @@
     <color name="icons">#212121</color>
     <color name="divider">#BDBDBD</color>
     <color name="light_text">#FAFAFA</color>
-    <color name="hint_light_text">#EEEEEE</color>
+    <color name="hint_light_text">#9E9E9E</color>
 </resources>

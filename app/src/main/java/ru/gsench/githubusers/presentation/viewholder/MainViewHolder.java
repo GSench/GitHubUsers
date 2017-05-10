@@ -1,5 +1,6 @@
 package ru.gsench.githubusers.presentation.viewholder;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ public class MainViewHolder {
     public TextView helloWord;
     public ImageView searchImage;
     public FloatingSearchView searchView;
+    public RevealFrameLayout searchViewContainer;
     public RelativeLayout userSearchContent;
     public RelativeLayout viewContainer;
     public RelativeLayout backgroundContainer;
@@ -37,7 +39,8 @@ public class MainViewHolder {
         githubImage = (ImageView) parent.findViewById(R.id.github_image);
         searchImage = (ImageView) parent.findViewById(R.id.search_image);
         userSearchContent = (RelativeLayout) parent.findViewById(R.id.user_list_content);
-        searchView = (FloatingSearchView) parent.findViewById(R.id.floating_search_view);
+        searchViewContainer = (RevealFrameLayout) parent.findViewById(R.id.floating_search_view_container);
+        searchView = (FloatingSearchView) LayoutInflater.from(parent.getContext()).inflate(R.layout.floating_search_view, searchViewContainer, false);
         viewContainer = (RelativeLayout) parent.findViewById(R.id.view_container);
         backgroundCircle = parent.findViewById(R.id.background_circle);
         backgroundContainer = (RelativeLayout) parent.findViewById(R.id.background_container);

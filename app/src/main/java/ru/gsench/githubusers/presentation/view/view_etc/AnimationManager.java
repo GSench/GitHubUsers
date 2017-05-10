@@ -93,14 +93,14 @@ public class AnimationManager {
         arcAnimator.start();
     }
 
-    private static void startSearchViewAnimation(MainViewHolder viewHolder){
+    private static void startSearchViewAnimation(final MainViewHolder viewHolder){
         int w = viewHolder.backgroundCircle.getWidth();
         int h = viewHolder.backgroundCircle.getHeight();
         int cx = w/2;
         int cy = h/2;
+        viewHolder.searchViewContainer.addView(viewHolder.searchView);
         viewHolder.searchView.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         viewHolder.backgroundContainer.setVisibility(View.GONE);
-        viewHolder.searchView.setVisibility(View.VISIBLE);
         float finalR = viewHolder.searchView.getMeasuredWidth();
         Animator searchViewAnim = ViewAnimationUtils.createCircularReveal(viewHolder.searchView, cx, cy, w/2, finalR);
         searchViewAnim.setInterpolator(new AccelerateDecelerateInterpolator());

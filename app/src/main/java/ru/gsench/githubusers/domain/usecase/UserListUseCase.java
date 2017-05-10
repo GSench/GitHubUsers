@@ -11,4 +11,5 @@ public interface UserListUseCase {
     public void subscribe(UserListPresenter presenter);
     public void updateList(int limit, int offset);
     public void openUser(GitHubUserShort user);
+    public void addToFavor(GitHubUserShort user);
 }

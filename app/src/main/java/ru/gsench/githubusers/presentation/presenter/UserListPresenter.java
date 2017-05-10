@@ -18,6 +18,8 @@ public class UserListPresenter {
 
     private UserListUseCase interactor;
 
+    private ArrayList<GitHubUserShort> users;
+
     public void setView(UserListView view) {
         this.view = view;
     }
@@ -31,12 +33,14 @@ public class UserListPresenter {
     public void start(){
         view.init();
         offset=0;
+        users = new ArrayList<>();
         interactor.subscribe(this);
     }
 
     public void addUsers(ArrayList<GitHubUserShort> users){
+        this.users.addAll(users);
+        view.notifyUsersAdded(offset, users.size());
         offset+=users.size();
-        view.addUsers(users);
     }
 
     public void scrolled(int visibleItemCount, int totalItemCount, int pastVisibleItems){
@@ -52,6 +56,7 @@ public class UserListPresenter {
     public void clearList(){
         offset=0;
         view.clearList();
+        users.clear();
     }
 
     public void onUserClicked(GitHubUserShort user){
@@ -70,4 +75,15 @@ public class UserListPresenter {
         view.closeView();
     }
 
+    public GitHubUserShort getUserAt(int i) {
+        return users.get(i);
+    }
+
+    public int getUserCount() {
+        return users.size();
+    }
+
+    public void addToFavor(GitHubUserShort user) {
+        interactor.addToFavor(user);
+    }
 }
