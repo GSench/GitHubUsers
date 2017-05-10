@@ -29,7 +29,7 @@ public class CoordinatorPresenter {
     }
 
     public void onSearchInput(String text){
-        view.openUserList(interactor.getUserListUseCase());
+        view.openUserList(new UserListPresenter(interactor.getUserListUseCase()));
         interactor.onSearchInput(text);
     }
 
@@ -38,7 +38,7 @@ public class CoordinatorPresenter {
     }
 
     public void onOpenUser(UserUseCase useCase){
-        view.openUser(useCase);
+        view.openUser(new UserPresenter(useCase));
     }
 
     public void openInBrowser(URL url){

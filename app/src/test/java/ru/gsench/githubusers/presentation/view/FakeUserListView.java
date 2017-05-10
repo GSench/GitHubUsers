@@ -51,4 +51,9 @@ public class FakeUserListView implements UserListView {
     public void showUnexpectedError() {
         System.out.println("Unexpected Error");
     }
+
+    @Override
+    public void closeView() {
+
+    }
 }

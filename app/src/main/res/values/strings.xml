@@ -2,6 +2,9 @@
     <string name="app_name">GitHubUsers</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="write_permission_msg">Get write permission</string>
+    <string name="internet_permission_msg">Get internet permission</string>
     <string name="write_permission_denied">Permission denied</string>
+    <string name="search_hint">Search for Coder</string>
+    <string name="favorites">Favorites</string>
+    <string name="hello_word">Start Searching\nCoders Now!</string>
 </resources>

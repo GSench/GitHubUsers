@@ -13,13 +13,15 @@ import android.widget.Toast;
 import ru.gsench.githubusers.R;
 import ru.gsench.githubusers.domain.utils.function;
 
+import static android.Manifest.permission.INTERNET;
+
 /**
  * Created by Григорий Сенченок on 10.03.2017.
  */
 
 public class PermissionManager {
 
-    private static final int WRITE_EXTERNAL_STORAGE = 1;
+    private static final int USE_INTERNET = 1;
 
     private Activity act;
     private function onOKFunction;
@@ -29,15 +31,15 @@ public class PermissionManager {
         this.act=act;
     }
 
-    public void requestBasePermissions(final Activity act, final function doAfter){
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M&&!writeExternalPermGranted(act)){
+    public void requestBasePermissions(final Activity act, final function<Void> doAfter){
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M&&!useInternetPermGranted(act)){
             new AlertDialog.Builder(act)
-                    .setMessage(R.string.write_permission_msg)
+                    .setMessage(R.string.internet_permission_msg)
                     .setPositiveButton(act.getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.cancel();
-                            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE);
+                            ActivityCompat.requestPermissions(act, new String[]{Manifest.permission.INTERNET}, USE_INTERNET);
                             onOKFunction = doAfter;
                             lastPermission = new function<Void>() {
                                 @Override
@@ -62,13 +64,13 @@ public class PermissionManager {
         }
     }
 
-    private static boolean writeExternalPermGranted(Context context) {
-        return (context.checkCallingOrSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+    private static boolean useInternetPermGranted(Context context) {
+        return (context.checkCallingOrSelfPermission(INTERNET) == PackageManager.PERMISSION_GRANTED);
     }
 
     public void onPermissionCallback(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case WRITE_EXTERNAL_STORAGE: {
+            case USE_INTERNET: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if(onOKFunction==null) return;
                     onOKFunction.run();

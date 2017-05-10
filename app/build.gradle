@@ -19,6 +19,12 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -28,4 +34,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'commons-io:commons-io:2.5'
+    compile 'com.github.arimorty:floatingsearchview:2.0.4'
+    compile 'com.balysv:material-ripple:1.0.2'
+    dependencies {
+        compile ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
+            transitive = true;
+        }
+    }
 }
