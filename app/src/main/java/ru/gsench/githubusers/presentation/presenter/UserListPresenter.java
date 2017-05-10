@@ -14,7 +14,7 @@ public class UserListPresenter {
 
     private final int limit = 30;
     private int offset;
-    private final int padding = 20;
+    private final int padding = 6;
 
     private UserListUseCase interactor;
 
