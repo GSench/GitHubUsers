@@ -8,4 +8,17 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SearchView">
+        <item name="floatingSearch_backgroundColor">@color/colorPrimary</item>
+        <item name="floatingSearch_viewSearchInputTextColor">@color/light_text</item>
+        <item name="floatingSearch_viewSuggestionItemTextColor">@color/hint_light_text</item>
+        <item name="floatingSearch_hintTextColor">@color/hint_light_text</item>
+        <item name="floatingSearch_dividerColor">@color/divider</item>
+        <item name="floatingSearch_clearBtnColor">@color/light_text</item>
+        <item name="floatingSearch_leftActionColor">@color/light_text</item>
+        <item name="floatingSearch_menuItemIconColor">@color/light_text</item>
+        <item name="floatingSearch_suggestionRightIconColor">@color/light_text</item>
+        <item name="floatingSearch_actionMenuOverflowColor">@color/light_text</item>
+    </style>
+
 </resources>

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 
+import io.codetail.widget.RevealFrameLayout;
 import ru.gsench.githubusers.R;
 
 /**
@@ -25,6 +26,9 @@ public class MainViewHolder {
     public FloatingSearchView searchView;
     public RelativeLayout userSearchContent;
     public RelativeLayout viewContainer;
+    public RelativeLayout backgroundContainer;
+    public View backgroundCircle;
+    public RevealFrameLayout backgroundFullContainer;
 
     public MainViewHolder(ViewGroup parent){
         background = parent.findViewById(R.id.background);
@@ -35,6 +39,9 @@ public class MainViewHolder {
         userSearchContent = (RelativeLayout) parent.findViewById(R.id.user_list_content);
         searchView = (FloatingSearchView) parent.findViewById(R.id.floating_search_view);
         viewContainer = (RelativeLayout) parent.findViewById(R.id.view_container);
+        backgroundCircle = parent.findViewById(R.id.background_circle);
+        backgroundContainer = (RelativeLayout) parent.findViewById(R.id.background_container);
+        backgroundFullContainer = (RevealFrameLayout) parent.findViewById(R.id.background_full_container);
     }
 
 }

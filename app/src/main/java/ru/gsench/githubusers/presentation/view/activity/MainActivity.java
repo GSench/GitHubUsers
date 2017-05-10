@@ -2,7 +2,10 @@ package ru.gsench.githubusers.presentation.view.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.ViewGroup;
+
+import com.arlib.floatingsearchview.FloatingSearchView;
 
 import java.net.URL;
 
@@ -13,6 +16,7 @@ import ru.gsench.githubusers.presentation.presenter.CoordinatorPresenter;
 import ru.gsench.githubusers.presentation.presenter.UserListPresenter;
 import ru.gsench.githubusers.presentation.presenter.UserPresenter;
 import ru.gsench.githubusers.presentation.view.CoordinatorView;
+import ru.gsench.githubusers.presentation.view.view_etc.AnimationManager;
 import ru.gsench.githubusers.presentation.view.view_etc.PermissionManager;
 import ru.gsench.githubusers.presentation.viewholder.MainViewHolder;
 
@@ -40,12 +44,26 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
 
     @Override
     public void init() {
+        View.OnClickListener onStartBtn = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { presenter.onStartButton(); }
+        };
+        viewHolder.helloContent.setOnClickListener(onStartBtn);
+        viewHolder.searchImage.setOnClickListener(onStartBtn);
+        viewHolder.searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
 
+                //get suggestions based on newQuery
+                //pass them on to the search view
+                //viewHolder.searchView.swapSuggestions(newQuery);
+            }
+        });
     }
 
     @Override
     public void openSearchView() {
-
+        AnimationManager.openSearchView(viewHolder);
     }
 
     @Override

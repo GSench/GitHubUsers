@@ -8,75 +8,28 @@
     android:layout_height="match_parent"
     tools:context=".presentation.view.activity.MainActivity">
 
-    <View
-        android:id="@+id/background"
+    <io.codetail.widget.RevealFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorAccent"/>
+        android:layout_height="match_parent">
 
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/ripple"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:mrl_rippleColor="@color/colorAccentTint"
-        app:mrl_rippleAlpha="0.5">
-
-        <View
+        <com.arlib.floatingsearchview.FloatingSearchView
+            android:id="@+id/floating_search_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:theme="@style/SearchView"
+            app:floatingSearch_searchBarMarginLeft="2dp"
+            app:floatingSearch_searchBarMarginTop="2dp"
+            app:floatingSearch_searchBarMarginRight="2dp"
+            app:floatingSearch_searchHint="@string/search_hint"
+            app:floatingSearch_suggestionsListAnimDuration="250"
+            app:floatingSearch_showSearchKey="false"
+            app:floatingSearch_leftActionMode="showSearch"
+            app:floatingSearch_menu="@menu/main_menu"
+            app:floatingSearch_close_search_on_keyboard_dismiss="true"
 
-    </com.balysv.materialripple.MaterialRippleLayout>
+            android:visibility="gone"/>
 
-    <LinearLayout
-        android:id="@+id/hello_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
-
-        <ImageView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            app:srcCompat="@drawable/github_octocat"
-            android:id="@+id/github_image"/>
-
-        <TextView
-            android:id="@+id/hello_word"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_word"
-            android:gravity="center"
-            android:fontFamily="sans-serif-light"
-            android:textSize="18pt"
-            android:textColor="@color/primary_text"/>
-
-        <ImageView
-            android:id="@+id/search_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/search_hint"
-            android:src="@drawable/ic_search_big"/>
-
-    </LinearLayout>
-
-    <com.arlib.floatingsearchview.FloatingSearchView
-        android:id="@+id/floating_search_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:floatingSearch_searchBarMarginLeft="@dimen/search_view_inset"
-        app:floatingSearch_searchBarMarginTop="@dimen/search_view_inset"
-        app:floatingSearch_searchBarMarginRight="@dimen/search_view_inset"
-        app:floatingSearch_searchHint="@string/search_hint"
-        app:floatingSearch_suggestionsListAnimDuration="250"
-        app:floatingSearch_showSearchKey="false"
-        app:floatingSearch_leftActionMode="showSearch"
-        app:floatingSearch_menu="@menu/main_menu"
-        app:floatingSearch_close_search_on_keyboard_dismiss="true"
-
-        android:visibility="gone"/>
+    </io.codetail.widget.RevealFrameLayout>
 
     <RelativeLayout
         android:id="@+id/user_list_content"
@@ -88,5 +41,68 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/background_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <io.codetail.widget.RevealFrameLayout
+            android:id="@+id/background_full_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"/>
+
+        </io.codetail.widget.RevealFrameLayout>
+
+        <View
+            android:background="@drawable/background_circle"
+            android:id="@+id/background_circle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/hello_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="82dp">
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:srcCompat="@drawable/github_octocat_circle"
+            android:id="@+id/github_image"/>
+
+        <TextView
+            android:id="@+id/hello_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_word"
+            android:gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:textSize="18pt"
+            android:textColor="@color/light_text"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/search_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/search_hint"
+        android:src="@drawable/ic_search_big"
+        android:layout_below="@id/hello_content"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

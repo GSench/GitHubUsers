@@ -29,12 +29,12 @@ public class CoordinatorPresenter {
     }
 
     public void onSearchInput(String text){
-        view.openUserList(new UserListPresenter(interactor.getUserListUseCase()));
         interactor.onSearchInput(text);
     }
 
     public void onStartButton(){
         view.openSearchView();
+        view.openUserList(new UserListPresenter(interactor.getUserListUseCase()));
     }
 
     public void onOpenUser(UserUseCase useCase){
