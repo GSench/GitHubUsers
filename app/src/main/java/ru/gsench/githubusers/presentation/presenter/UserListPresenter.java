@@ -15,6 +15,7 @@ public class UserListPresenter {
     private final int limit = 30;
     private int offset;
     private final int padding = 6;
+    private int totalCount = 0;
 
     private UserListUseCase interactor;
 
@@ -33,18 +34,22 @@ public class UserListPresenter {
     public void start(){
         view.init();
         offset=0;
+        totalCount=0;
         users = new ArrayList<>();
         interactor.subscribe(this);
     }
 
-    public void addUsers(ArrayList<GitHubUserShort> users){
+    public void addUsers(ArrayList<GitHubUserShort> users, int totalCount){
         this.users.addAll(users);
-        view.notifyUsersAdded(offset, users.size());
+        int prevOffset = offset;
         offset+=users.size();
+        view.notifyUsersAdded(prevOffset, users.size());
+        this.totalCount=totalCount;
+        if(this.users.size()>=totalCount) view.hideLoading();
     }
 
     public void scrolled(int visibleItemCount, int totalItemCount, int pastVisibleItems){
-        if (visibleItemCount + pastVisibleItems + padding >= totalItemCount) {
+        if (visibleItemCount + pastVisibleItems + padding >= totalItemCount && users.size()<totalCount) {
             interactor.updateList(limit, offset);
         }
     }
@@ -55,6 +60,7 @@ public class UserListPresenter {
 
     public void clearList(){
         offset=0;
+        totalCount=0;
         view.clearList();
         users.clear();
     }
@@ -85,5 +91,10 @@ public class UserListPresenter {
 
     public void addToFavor(GitHubUserShort user) {
         interactor.addToFavor(user);
+    }
+
+    public void onNewSearchRequest() {
+        view.showLoading();
+        interactor.updateList(limit, offset);
     }
 }

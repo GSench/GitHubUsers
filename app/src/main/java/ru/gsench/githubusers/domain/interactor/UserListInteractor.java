@@ -9,6 +9,7 @@ import ru.gsench.githubusers.domain.github_repo.GitHubRequests;
 import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
 import ru.gsench.githubusers.domain.github_repo.ResponseParser;
 import ru.gsench.githubusers.domain.usecase.UserListUseCase;
+import ru.gsench.githubusers.domain.utils.Pair;
 import ru.gsench.githubusers.domain.utils.function;
 import ru.gsench.githubusers.presentation.presenter.UserListPresenter;
 
@@ -47,7 +48,7 @@ public class UserListInteractor implements UserListUseCase {
         if(presenter==null||query==null) return; //checking search query & subscription to be initialized
         loading=false; //dropping previous query if it's exist
         presenter.clearList(); //clearing presenter if it's filled
-        presenter.scrolled(0, 0, 0); //then notifying presenter that query is initialized
+        presenter.onNewSearchRequest(); //then notifying presenter that query is initialized
     }
 
     @Override
@@ -62,10 +63,10 @@ public class UserListInteractor implements UserListUseCase {
                 try {
                     URL url = GitHubRequests.searchUser(queryTest, limit, offset);
                     String result = new String(system.httpGet(url, null).t);
-                    final ArrayList<GitHubUserShort> users = ResponseParser.parseSearchResults(result);
+                    final Pair<ArrayList<GitHubUserShort>, Integer> users = ResponseParser.parseSearchResults(result);
                     callback = new function<Void>() {
                         @Override
-                        public void run(Void... params) { presenter.addUsers(users); }
+                        public void run(Void... params) { presenter.addUsers(users.t, users.u); }
                     };
                 } catch (IOException e){
                     e.printStackTrace();

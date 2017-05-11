@@ -3,9 +3,11 @@ package ru.gsench.githubusers.presentation.view.aview;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
+import ru.gsench.githubusers.R;
 import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
 import ru.gsench.githubusers.presentation.presenter.UserListPresenter;
 import ru.gsench.githubusers.presentation.utils.AView;
@@ -73,22 +75,32 @@ public class UserListAView extends AView implements UserListView {
 
     @Override
     public void showLoadingError() {
-
+        Toast.makeText(context, R.string.loading_error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showParseError() {
-
+        Toast.makeText(context, R.string.parse_error, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showUnexpectedError() {
-
+        Toast.makeText(context, R.string.unexpected_error, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void closeView() {
 
+    }
+
+    @Override
+    public void hideLoading() {
+        adapter.hideLoading();
+    }
+
+    @Override
+    public void showLoading() {
+        adapter.showLoading();
     }
 
     public GitHubUserShort getUserAt(int i) {

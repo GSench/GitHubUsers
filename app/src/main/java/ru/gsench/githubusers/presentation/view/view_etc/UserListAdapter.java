@@ -40,16 +40,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         if(viewHolder instanceof HeaderViewHolder){
 
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
-            System.out.println("header added on "+i);
 
         } else if(viewHolder instanceof FooterViewHolder){
 
             FooterViewHolder footerViewHolder = (FooterViewHolder) viewHolder;
-            System.out.println("footer added on "+i);
 
         } else if(viewHolder instanceof NormalViewHolder){
-
-            System.out.println("item added on "+i);
 
             NormalViewHolder normalViewHolder = (NormalViewHolder) viewHolder;
 
@@ -160,12 +156,10 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     @Override
     public int getItemViewType(int position) {
         int ret;
-        System.out.println("items count "+aView.getUserCount());
         if(position==0) ret=HEADER_VIEW;
         else if(position==1&&aView.getUserCount()==0) ret= FOOTER_VIEW;
         else if(position==aView.getUserCount()+1) ret= FOOTER_VIEW;
         else ret = super.getItemViewType(position);
-        System.out.println("on position "+position+" : "+ret);
         return ret;
     }
 

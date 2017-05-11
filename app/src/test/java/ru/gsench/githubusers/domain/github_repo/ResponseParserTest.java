@@ -102,7 +102,7 @@ public class ResponseParserTest {
                             "    }\n" +
                             "  ]\n" +
                             "}"
-            );
+            ).t;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -133,7 +133,7 @@ public class ResponseParserTest {
 
     @Test(expected = Exception.class)
     public void parseSearchResultsTestCaseNull() throws Exception {
-        ArrayList<GitHubUserShort> result = ResponseParser.parseSearchResults(null);
+        ArrayList<GitHubUserShort> result = ResponseParser.parseSearchResults(null).t;
     }
 
     @Test

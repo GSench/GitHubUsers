@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import ru.gsench.githubusers.domain.utils.Pair;
+
 /**
  * Created by grish on 01.05.2017.
  */
@@ -17,20 +19,20 @@ public class ResponseParser {
 
     private static DateFormat githubDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-    public static ArrayList<GitHubUserShort> parseSearchResults(String response) throws ParseException {
+    public static Pair<ArrayList<GitHubUserShort>, Integer> parseSearchResults(String response) throws ParseException {
         try {
             JsonParser parser = new JsonParser();
             JsonObject mainObject = parser.parse(response).getAsJsonObject();
 
             int totalCount = mainObject.get("total_count").getAsInt();
-            if(totalCount==0) new ArrayList<GitHubUserShort>();
+            if(totalCount==0) new Pair<>(new ArrayList<GitHubUserShort>(), 0);
 
             JsonArray users = mainObject.getAsJsonArray("items");
             ArrayList<GitHubUserShort> userShorts = new ArrayList<>();
 
             for(int i=0; i<users.size(); i++) userShorts.add(initUserShort(users.get(i).getAsJsonObject()));
 
-            return userShorts;
+            return new Pair<>(userShorts, totalCount);
         } catch (Throwable t){
             throw new ParseException();
         }

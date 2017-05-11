@@ -13,4 +13,6 @@ public interface UserListView {
     public void showParseError();
     public void showUnexpectedError();
     public void closeView();
+    public void hideLoading();
+    public void showLoading();
 }
