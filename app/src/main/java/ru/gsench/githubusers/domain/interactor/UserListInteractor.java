@@ -3,6 +3,7 @@ package ru.gsench.githubusers.domain.interactor;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import ru.gsench.githubusers.domain.SystemInterface;
 import ru.gsench.githubusers.domain.github_repo.GitHubRequests;
@@ -48,11 +49,15 @@ public class UserListInteractor implements UserListUseCase {
         if(presenter==null||query==null) return; //checking search query & subscription to be initialized
         loading=false; //dropping previous query if it's exist
         presenter.clearList(); //clearing presenter if it's filled
-        presenter.onNewSearchRequest(); //then notifying presenter that query is initialized
+        presenter.updateList(); //then notifying presenter that query is initialized
     }
 
     @Override
     public void updateList(final int limit, final int offset) {
+        updateList(limit, offset, false);
+    }
+
+    private void updateList(final int limit, final int offset, final boolean isRetry) {
         if(query==null||presenter==null||loading) return;
         loading=true; //protect for multiply queries
         final String queryTest = query;
@@ -72,7 +77,21 @@ public class UserListInteractor implements UserListUseCase {
                     e.printStackTrace();
                     callback = new function<Void>() {
                         @Override
-                        public void run(Void... params) { presenter.showLoadingError(); }
+                        public void run(Void... params) {
+                            if(!isRetry) presenter.showLoadingError();
+                            system.doOnBackground(new function<Void>() {
+                                @Override
+                                public void run(Void... params) {
+                                    try {
+                                        TimeUnit.SECONDS.sleep(1);
+                                    } catch (InterruptedException e1) {}
+                                    system.doOnForeground(new function<Void>() {
+                                        @Override
+                                        public void run(Void... params) { updateList(limit, offset, true); }
+                                    });
+                                }
+                            });
+                        }
                     };
                 } catch (ResponseParser.ParseException e) {
                     e.printStackTrace();

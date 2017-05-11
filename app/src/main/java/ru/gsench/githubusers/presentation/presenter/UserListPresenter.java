@@ -93,7 +93,7 @@ public class UserListPresenter {
         interactor.addToFavor(user);
     }
 
-    public void onNewSearchRequest() {
+    public void updateList() {
         view.showLoading();
         interactor.updateList(limit, offset);
     }
