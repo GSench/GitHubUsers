@@ -1,12 +1,10 @@
 package ru.gsench.githubusers.domain.interactor;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import ru.gsench.githubusers.domain.SystemInterface;
-import ru.gsench.githubusers.domain.github_repo.GitHubRequests;
 import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
 import ru.gsench.githubusers.domain.github_repo.ResponseParser;
 import ru.gsench.githubusers.domain.usecase.UserListUseCase;
@@ -23,7 +21,7 @@ public class UserListInteractor implements UserListUseCase {
     private SystemInterface system;
     private UserListPresenter presenter;
     private function<GitHubUserShort> onOpenUser;
-    private String query;
+    private UserListObservable observable;
     private boolean loading = false;
 
     public UserListInteractor(SystemInterface system, function<GitHubUserShort> onOpenUser){
@@ -32,13 +30,13 @@ public class UserListInteractor implements UserListUseCase {
         loading=false;
     }
 
-    //initializing search query
-    public void searchFor(String query){
-        this.query=query;
+    //initializing search observable
+    public void setObservable(UserListObservable observable){
+        this.observable = observable;
         subscribe();
     }
 
-    //subscribe presenter to interactor for updating if search query is initialized
+    //subscribe presenter to interactor for updating if search observable is initialized
     @Override
     public void subscribe(UserListPresenter presenter) {
         this.presenter=presenter;
@@ -46,10 +44,10 @@ public class UserListInteractor implements UserListUseCase {
     }
 
     private void subscribe(){
-        if(presenter==null||query==null) return; //checking search query & subscription to be initialized
-        loading=false; //dropping previous query if it's exist
+        if(presenter==null|| observable ==null) return; //checking search observable & subscription to be initialized
+        loading=false; //dropping previous observable if it's exist
         presenter.clearList(); //clearing presenter if it's filled
-        presenter.updateList(); //then notifying presenter that query is initialized
+        presenter.updateList(); //then notifying presenter that observable is initialized
     }
 
     @Override
@@ -58,17 +56,15 @@ public class UserListInteractor implements UserListUseCase {
     }
 
     private void updateList(final int limit, final int offset, final boolean isRetry) {
-        if(query==null||presenter==null||loading) return;
+        if(observable ==null||presenter==null||loading) return;
         loading=true; //protect for multiply queries
-        final String queryTest = query;
-        system.doOnBackground(new function<Void>() { //execution query on new thread
+        final UserListObservable queryTest = observable;
+        system.doOnBackground(new function<Void>() { //execution observable on new thread
             @Override
             public void run(Void... params) {
                 function<Void> callback;
                 try {
-                    URL url = GitHubRequests.searchUser(queryTest, limit, offset);
-                    String result = new String(system.httpGet(url, null).t);
-                    final Pair<ArrayList<GitHubUserShort>, Integer> users = ResponseParser.parseSearchResults(result);
+                    final Pair<ArrayList<GitHubUserShort>, Integer> users = observable.obtain(limit, offset);
                     callback = new function<Void>() {
                         @Override
                         public void run(Void... params) { presenter.addUsers(users.t, users.u); }
@@ -112,8 +108,8 @@ public class UserListInteractor implements UserListUseCase {
         });
     }
 
-    private void present(function<Void> result, String forRequest){
-        if(query==null||!query.equals(forRequest)) return; //checking that results are up to date
+    private void present(function<Void> result, UserListObservable forRequest){
+        if(observable ==null||!observable.equals(forRequest)) return; //checking that results are up to date
         system.doOnForeground(result); //performing results
     }
 

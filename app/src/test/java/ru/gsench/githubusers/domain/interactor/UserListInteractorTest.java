@@ -127,8 +127,8 @@ public class UserListInteractorTest {
     public void searchFor() throws Exception {
         system.addRequest(alicePage1);
 
-        System.out.println("---------Testing searchFor---------");
-        interactor.searchFor("Alice");
+        System.out.println("---------Testing setObservable---------");
+        interactor.setObservable("Alice");
         TimeUnit.SECONDS.sleep(4);
         Assert.assertEquals(1, userListView.getUsers().size());
         Assert.assertEquals("alice", userListView.getUsers().get(0).getLogin());
@@ -141,9 +141,9 @@ public class UserListInteractorTest {
         system.addRequest(tomPage1);
 
         System.out.println("---------Testing searchWithBreaking---------");
-        interactor.searchFor("Alice");
+        interactor.setObservable("Alice");
         TimeUnit.SECONDS.sleep(1);
-        interactor.searchFor("Tom");
+        interactor.setObservable("Tom");
         TimeUnit.SECONDS.sleep(4);
         Assert.assertEquals(1, userListView.getUsers().size());
         Assert.assertEquals("tom", userListView.getUsers().get(0).getLogin());
@@ -156,7 +156,7 @@ public class UserListInteractorTest {
         system.addRequest(alicePage2);
 
         System.out.println("---------Testing searchWithContinuing---------");
-        interactor.searchFor("Alice");
+        interactor.setObservable("Alice");
         TimeUnit.SECONDS.sleep(4);
         Assert.assertEquals(1, userListView.getUsers().size());
         Assert.assertEquals("alice", userListView.getUsers().get(0).getLogin());

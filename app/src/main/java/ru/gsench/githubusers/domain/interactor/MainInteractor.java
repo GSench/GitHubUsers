@@ -27,7 +27,7 @@ public class MainInteractor {
         initUserListInteractor();
         text = text.trim();
         if(text.equals("")) return;
-        userListInteractor.searchFor(text);
+        userListInteractor.setObservable(new SearchObservable(text, system));
     }
 
     public UserListUseCase getUserListUseCase() {
