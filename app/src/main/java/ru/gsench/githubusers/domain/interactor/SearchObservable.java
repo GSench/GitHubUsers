@@ -26,7 +26,7 @@ public class SearchObservable extends UserListObservable {
     }
 
     @Override
-    public Pair<ArrayList<GitHubUserFavor>, Integer> obtain(int limit, int offset) throws IOException, ResponseParser.ParseException {
+    public Pair<ArrayList<UserModel>, Integer> obtain(int limit, int offset) throws IOException, ResponseParser.ParseException {
         URL url = GitHubRequests.searchUser(query, limit, offset);
         String result = new String(system.httpGet(url, null).t);
         Pair<ArrayList<GitHubUserShort>, Integer> users = ResponseParser.parseSearchResults(result);

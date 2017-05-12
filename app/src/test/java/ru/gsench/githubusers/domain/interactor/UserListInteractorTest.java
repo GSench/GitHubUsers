@@ -108,15 +108,15 @@ public class UserListInteractorTest {
         system = new FakeSystem();
         interactor = new UserListInteractor(
                 system,
-                new function<GitHubUserFavor>() {
+                new function<UserModel>() {
                     @Override
-                    public void run(GitHubUserFavor... params) {
+                    public void run(UserModel... params) {
                         Assert.assertNotNull(params[0]);
                     }
                 },
-                new function<GitHubUserFavor>() {
+                new function<UserModel>() {
                     @Override
-                    public void run(GitHubUserFavor... params) {
+                    public void run(UserModel... params) {
 
                     }
                 }

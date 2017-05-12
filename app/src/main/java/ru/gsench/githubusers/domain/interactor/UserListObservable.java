@@ -18,7 +18,7 @@ public abstract class UserListObservable {
         this.query=query;
     }
 
-    public abstract Pair<ArrayList<GitHubUserFavor>, Integer> obtain(int limit, int offset) throws IOException, ResponseParser.ParseException;
+    public abstract Pair<ArrayList<UserModel>, Integer> obtain(int limit, int offset) throws IOException, ResponseParser.ParseException;
 
     @Override
     public boolean equals(Object obj) {

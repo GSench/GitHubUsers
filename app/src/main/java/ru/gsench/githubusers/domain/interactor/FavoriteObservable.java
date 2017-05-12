@@ -20,7 +20,7 @@ public class FavoriteObservable extends UserListObservable {
     }
 
     @Override
-    public Pair<ArrayList<GitHubUserFavor>, Integer> obtain(int limit, int offset) throws IOException, ResponseParser.ParseException {
+    public Pair<ArrayList<UserModel>, Integer> obtain(int limit, int offset) throws IOException, ResponseParser.ParseException {
         return new Pair<>(favorites.getFavorites(), favorites.getFavorites().size());
     }
 }

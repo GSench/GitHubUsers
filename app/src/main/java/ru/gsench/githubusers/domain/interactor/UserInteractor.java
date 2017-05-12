@@ -20,10 +20,10 @@ import ru.gsench.githubusers.presentation.presenter.UserPresenter;
 public class UserInteractor implements UserUseCase {
 
     private SystemInterface system;
-    private GitHubUserFavor user;
+    private UserModel user;
     private function<GitHubUserShort> openInBrowser;
 
-    public UserInteractor(SystemInterface system, GitHubUserFavor user, function<GitHubUserShort> openInBrowser) {
+    public UserInteractor(SystemInterface system, UserModel user, function<GitHubUserShort> openInBrowser) {
         this.system = system;
         this.user = user;
         this.openInBrowser=openInBrowser;
@@ -70,7 +70,7 @@ public class UserInteractor implements UserUseCase {
     }
 
     @Override
-    public GitHubUserFavor getUser() {
+    public UserModel getUser() {
         return user;
     }
 

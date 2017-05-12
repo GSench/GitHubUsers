@@ -2,7 +2,7 @@ package ru.gsench.githubusers.presentation.presenter;
 
 import java.util.ArrayList;
 
-import ru.gsench.githubusers.domain.interactor.GitHubUserFavor;
+import ru.gsench.githubusers.domain.interactor.UserModel;
 import ru.gsench.githubusers.domain.usecase.UserListUseCase;
 import ru.gsench.githubusers.presentation.view.UserListView;
 
@@ -19,11 +19,11 @@ public class UserListPresenter {
 
     private UserListUseCase interactor;
 
-    public ArrayList<GitHubUserFavor> getUsers() {
+    public ArrayList<UserModel> getUsers() {
         return users;
     }
 
-    private ArrayList<GitHubUserFavor> users;
+    private ArrayList<UserModel> users;
 
     public void setView(UserListView view) {
         this.view = view;
@@ -43,7 +43,7 @@ public class UserListPresenter {
         interactor.subscribe(this);
     }
 
-    public void addUsers(ArrayList<GitHubUserFavor> users, int totalCount){
+    public void addUsers(ArrayList<UserModel> users, int totalCount){
         this.users.addAll(users);
         int prevOffset = offset;
         offset+=users.size();
@@ -69,7 +69,7 @@ public class UserListPresenter {
         users.clear();
     }
 
-    public void onUserClicked(GitHubUserFavor user){
+    public void onUserClicked(UserModel user){
         interactor.openUser(user);
     }
 
@@ -85,7 +85,7 @@ public class UserListPresenter {
         view.closeView();
     }
 
-    public GitHubUserFavor getUserAt(int i) {
+    public UserModel getUserAt(int i) {
         return users.get(i);
     }
 
@@ -93,7 +93,7 @@ public class UserListPresenter {
         return users.size();
     }
 
-    public void onFavorIconClick(GitHubUserFavor user) {
+    public void onFavorIconClick(UserModel user) {
         interactor.pushFavorite(user);
     }
 

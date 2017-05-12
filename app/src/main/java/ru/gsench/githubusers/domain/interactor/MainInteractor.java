@@ -48,9 +48,9 @@ public class MainInteractor {
 
     private void initUserListInteractor(){
         if(userListInteractor==null)
-            userListInteractor = new UserListInteractor(system, new function<GitHubUserFavor>() {
+            userListInteractor = new UserListInteractor(system, new function<UserModel>() {
                 @Override
-                public void run(GitHubUserFavor... params) {
+                public void run(UserModel... params) {
                     coordinator.onOpenUser(new UserInteractor(system, params[0], new function<GitHubUserShort>() {
                         @Override
                         public void run(GitHubUserShort... params) {
@@ -58,9 +58,9 @@ public class MainInteractor {
                         }
                     }));
                 }
-            }, new function<GitHubUserFavor>() {
+            }, new function<UserModel>() {
                 @Override
-                public void run(GitHubUserFavor... params) {
+                public void run(UserModel... params) {
                     if(params[0].isFavorite()) favorites.addToFavorites(params[0]);
                     else favorites.removeFromFavorites(params[0]);
                     if(mode==MODE_FAVOR) onFavoritesOpen();

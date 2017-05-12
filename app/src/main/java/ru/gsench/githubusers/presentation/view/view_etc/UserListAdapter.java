@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import ru.gsench.githubusers.R;
-import ru.gsench.githubusers.domain.interactor.GitHubUserFavor;
+import ru.gsench.githubusers.domain.interactor.UserModel;
 import ru.gsench.githubusers.presentation.view.aview.UserListAView;
 
 import static ru.gsench.githubusers.R.layout.user;
@@ -49,7 +49,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
 
             final NormalViewHolder normalViewHolder = (NormalViewHolder) viewHolder;
 
-            final GitHubUserFavor user = aView.getUserAt(i-1);
+            final UserModel user = aView.getUserAt(i-1);
             normalViewHolder.name.setText(user.getLogin());
             Glide
                     .with(aView.context)

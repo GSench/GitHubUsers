@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import ru.gsench.githubusers.domain.github_repo.GitHubRepository;
 import ru.gsench.githubusers.domain.github_repo.GitHubUser;
-import ru.gsench.githubusers.domain.interactor.GitHubUserFavor;
+import ru.gsench.githubusers.domain.interactor.UserModel;
 import ru.gsench.githubusers.domain.usecase.UserUseCase;
 import ru.gsench.githubusers.presentation.view.UserView;
 
@@ -36,7 +36,7 @@ public class UserPresenter {
 
     private void updateUser(){
         view.showLoading();
-        GitHubUserFavor user = interactor.getUser();
+        UserModel user = interactor.getUser();
         view.setUser(user);
         interactor.getUser(this);
         interactor.getRepositories(this);

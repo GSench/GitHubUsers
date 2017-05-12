@@ -2,7 +2,7 @@ package ru.gsench.githubusers.presentation.view;
 
 import java.util.ArrayList;
 
-import ru.gsench.githubusers.domain.interactor.GitHubUserFavor;
+import ru.gsench.githubusers.domain.interactor.UserModel;
 
 /**
  * Created by grish on 08.05.2017.
@@ -10,11 +10,11 @@ import ru.gsench.githubusers.domain.interactor.GitHubUserFavor;
 
 public class FakeUserListView implements UserListView {
 
-    public ArrayList<GitHubUserFavor> getUsers() {
+    public ArrayList<UserModel> getUsers() {
         return users;
     }
 
-    private ArrayList<GitHubUserFavor> users;
+    private ArrayList<UserModel> users;
 
     @Override
     public void init() {

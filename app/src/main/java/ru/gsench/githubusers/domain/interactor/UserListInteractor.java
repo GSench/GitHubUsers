@@ -19,12 +19,12 @@ public class UserListInteractor implements UserListUseCase {
 
     private SystemInterface system;
     private UserListPresenter presenter;
-    private function<GitHubUserFavor> onOpenUser;
-    private function<GitHubUserFavor> onFavoriteChanged;
+    private function<UserModel> onOpenUser;
+    private function<UserModel> onFavoriteChanged;
     private UserListObservable observable;
     private boolean loading = false;
 
-    public UserListInteractor(SystemInterface system, function<GitHubUserFavor> onOpenUser, function<GitHubUserFavor> onFavoriteChanged){
+    public UserListInteractor(SystemInterface system, function<UserModel> onOpenUser, function<UserModel> onFavoriteChanged){
         this.system=system;
         this.onOpenUser=onOpenUser;
         this.onFavoriteChanged=onFavoriteChanged;
@@ -65,7 +65,7 @@ public class UserListInteractor implements UserListUseCase {
             public void run(Void... params) {
                 function<Void> callback;
                 try {
-                    final Pair<ArrayList<GitHubUserFavor>, Integer> users = observable.obtain(limit, offset);
+                    final Pair<ArrayList<UserModel>, Integer> users = observable.obtain(limit, offset);
                     callback = new function<Void>() {
                         @Override
                         public void run(Void... params) { presenter.addUsers(users.t, users.u); }
@@ -115,12 +115,12 @@ public class UserListInteractor implements UserListUseCase {
     }
 
     @Override
-    public void openUser(GitHubUserFavor user) {
+    public void openUser(UserModel user) {
         onOpenUser.run(user);
     }
 
     @Override
-    public void pushFavorite(GitHubUserFavor user) {
+    public void pushFavorite(UserModel user) {
         onFavoriteChanged.run(user);
     }
 }
