@@ -65,7 +65,7 @@ public class UserListAView extends AView implements UserListView {
 
     @Override
     public void notifyUsersAdded(int offset, int count) {
-        adapter.notifyItemAdded(offset, count);
+        adapter.notifyItemsAdded(offset, count);
     }
 
     @Override

@@ -12,6 +12,7 @@ import ru.gsench.githubusers.domain.interactor.UserModel;
 
 public interface UserView {
     public void init();
+    public void showWithAnimation();
     public void setUser(GitHubUser param);
     public void setUser(UserModel userShort);
     public void setRepositories(ArrayList<GitHubRepository> param);
