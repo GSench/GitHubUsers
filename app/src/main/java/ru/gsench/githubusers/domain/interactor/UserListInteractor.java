@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import ru.gsench.githubusers.domain.SystemInterface;
-import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
 import ru.gsench.githubusers.domain.github_repo.ResponseParser;
 import ru.gsench.githubusers.domain.usecase.UserListUseCase;
 import ru.gsench.githubusers.domain.utils.Pair;
@@ -20,13 +19,15 @@ public class UserListInteractor implements UserListUseCase {
 
     private SystemInterface system;
     private UserListPresenter presenter;
-    private function<GitHubUserShort> onOpenUser;
+    private function<GitHubUserFavor> onOpenUser;
+    private function<GitHubUserFavor> onFavoriteChanged;
     private UserListObservable observable;
     private boolean loading = false;
 
-    public UserListInteractor(SystemInterface system, function<GitHubUserShort> onOpenUser){
+    public UserListInteractor(SystemInterface system, function<GitHubUserFavor> onOpenUser, function<GitHubUserFavor> onFavoriteChanged){
         this.system=system;
         this.onOpenUser=onOpenUser;
+        this.onFavoriteChanged=onFavoriteChanged;
         loading=false;
     }
 
@@ -64,7 +65,7 @@ public class UserListInteractor implements UserListUseCase {
             public void run(Void... params) {
                 function<Void> callback;
                 try {
-                    final Pair<ArrayList<GitHubUserShort>, Integer> users = observable.obtain(limit, offset);
+                    final Pair<ArrayList<GitHubUserFavor>, Integer> users = observable.obtain(limit, offset);
                     callback = new function<Void>() {
                         @Override
                         public void run(Void... params) { presenter.addUsers(users.t, users.u); }
@@ -114,12 +115,12 @@ public class UserListInteractor implements UserListUseCase {
     }
 
     @Override
-    public void openUser(GitHubUserShort user) {
+    public void openUser(GitHubUserFavor user) {
         onOpenUser.run(user);
     }
 
     @Override
-    public void addToFavor(GitHubUserShort user) {
-        //TODO
+    public void pushFavorite(GitHubUserFavor user) {
+        onFavoriteChanged.run(user);
     }
 }

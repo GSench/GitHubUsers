@@ -15,51 +15,60 @@
         card_view:cardElevation="2dp"
         android:layout_margin="5dp">
 
-        <LinearLayout
+        <com.balysv.materialripple.MaterialRippleLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp">
+            app:mrl_rippleInAdapter="true"
+            app:mrl_rippleDuration="200"
+            app:mrl_rippleFadeDuration="75"
+            app:mrl_rippleColor="@color/colorPrimaryLight"
+            app:mrl_rippleDimension="10dp">
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/user_avatar"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/user_name"
-                android:fontFamily="sans-serif-light"
-                android:textSize="12pt"
-                android:textColor="@color/primary_text"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:maxLines="2"/>
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:id="@+id/user_avatar"/>
 
-            <com.balysv.materialripple.MaterialRippleLayout
-                android:id="@+id/ripple"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                app:mrl_rippleInAdapter="true"
-                app:mrl_rippleDuration="200"
-                app:mrl_rippleFadeDuration="75"
-                app:mrl_rippleColor="@color/colorPrimaryLight"
-                app:mrl_rippleDimension="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_name"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="12pt"
+                    android:textColor="@color/primary_text"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:maxLines="2"/>
 
-                <Button
-                    android:id="@+id/add_to_favorites"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:background="@drawable/add_to_favorites"/>
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:mrl_rippleInAdapter="true"
+                    app:mrl_rippleDuration="200"
+                    app:mrl_rippleFadeDuration="75"
+                    app:mrl_rippleColor="@color/colorPrimaryLight"
+                    app:mrl_rippleDimension="10dp">
 
-            </com.balysv.materialripple.MaterialRippleLayout>
+                    <View
+                        android:id="@+id/add_to_favorites"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@drawable/add_to_favorites"/>
 
-        </LinearLayout>
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+            </LinearLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
 
     </android.support.v7.widget.CardView>
 

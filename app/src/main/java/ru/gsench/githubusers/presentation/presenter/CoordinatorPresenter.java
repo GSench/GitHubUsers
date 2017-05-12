@@ -45,4 +45,7 @@ public class CoordinatorPresenter {
         view.openBrowser(url);
     }
 
+    public void onFavoritesMenuClick() {
+        interactor.onFavoritesOpen();
+    }
 }

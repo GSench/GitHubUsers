@@ -1,6 +1,6 @@
 package ru.gsench.githubusers.domain.usecase;
 
-import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
+import ru.gsench.githubusers.domain.interactor.GitHubUserFavor;
 import ru.gsench.githubusers.presentation.presenter.UserListPresenter;
 
 /**
@@ -10,6 +10,6 @@ import ru.gsench.githubusers.presentation.presenter.UserListPresenter;
 public interface UserListUseCase {
     public void subscribe(UserListPresenter presenter);
     public void updateList(int limit, int offset);
-    public void openUser(GitHubUserShort user);
-    public void addToFavor(GitHubUserShort user);
+    public void openUser(GitHubUserFavor user);
+    public void pushFavorite(GitHubUserFavor user);
 }

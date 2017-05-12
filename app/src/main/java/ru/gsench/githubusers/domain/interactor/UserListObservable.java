@@ -3,7 +3,6 @@ package ru.gsench.githubusers.domain.interactor;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
 import ru.gsench.githubusers.domain.github_repo.ResponseParser;
 import ru.gsench.githubusers.domain.utils.Pair;
 
@@ -19,7 +18,7 @@ public abstract class UserListObservable {
         this.query=query;
     }
 
-    public abstract Pair<ArrayList<GitHubUserShort>, Integer> obtain(int limit, int offset) throws IOException, ResponseParser.ParseException;
+    public abstract Pair<ArrayList<GitHubUserFavor>, Integer> obtain(int limit, int offset) throws IOException, ResponseParser.ParseException;
 
     @Override
     public boolean equals(Object obj) {

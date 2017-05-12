@@ -23,6 +23,7 @@ import ru.gsench.githubusers.presentation.viewholder.MainViewHolder;
  */
 
 public class AnimationManager {
+    //TODO block ui during animation
 
     public static void openSearchView(final MainViewHolder mainViewHolder){
         final View view = mainViewHolder.background;

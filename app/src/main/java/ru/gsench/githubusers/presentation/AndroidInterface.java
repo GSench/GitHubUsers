@@ -1,6 +1,7 @@
 package ru.gsench.githubusers.presentation;
 
 import android.app.Activity;
+import android.content.Context;
 
 import org.apache.commons.io.IOUtils;
 
@@ -11,9 +12,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ru.gsench.githubusers.domain.SystemInterface;
 import ru.gsench.githubusers.domain.utils.HttpParams;
@@ -26,10 +30,11 @@ import ru.gsench.githubusers.domain.utils.function;
 
 public class AndroidInterface implements SystemInterface {
 
-    private Activity activity;
+    private Activity act;
+    public static final String SPREF = "preferences";
 
-    public AndroidInterface(Activity activity){
-        this.activity=activity;
+    public AndroidInterface(Activity act){
+        this.act = act;
     }
 
     @Override
@@ -45,8 +50,8 @@ public class AndroidInterface implements SystemInterface {
 
     @Override
     public void doOnForeground(final function<Void> function) {
-        if(activity!=null)
-            activity.runOnUiThread(new Runnable() {
+        if(act !=null)
+            act.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     function.run();
@@ -91,6 +96,23 @@ public class AndroidInterface implements SystemInterface {
         }
     }
 
+    @Override
+    public String[] getSavedStringArray(String title, String[] def) {
+        Set<String> defaultArr;
+        if(def==null) defaultArr = null;
+        else defaultArr = new HashSet<>(Arrays.asList(def));
+        Set<String> stringSet = act.getSharedPreferences(SPREF, Context.MODE_PRIVATE).getStringSet(title, defaultArr);
+        return stringSet!=null ? stringSet.toArray(new String[stringSet.size()]) : null;
+    }
+
+    @Override
+    public void saveStringArray(String title, String[] array) {
+        act.getSharedPreferences(SPREF, Context.MODE_PRIVATE)
+                .edit()
+                .putStringSet(title, new HashSet<>(Arrays.asList(array)))
+                .commit();
+    }
+
     private byte[] readByByte(InputStream in) throws IOException {
         ArrayList<Byte> byteChain = new ArrayList<>();
         while (true){
@@ -104,4 +126,40 @@ public class AndroidInterface implements SystemInterface {
         for(int i=0; i<byteChain.size(); i++) ret[i]=byteChain.get(i);
         return ret;
     }
+
+    /**
+    @Override
+    public String getSavedString(String title, String def) {
+        return act.getSharedPreferences(SPREF, Context.MODE_PRIVATE).getString(title, def);
+    }
+
+    @Override
+    public void saveString(String title, String string) {
+        act.getSharedPreferences(SPREF, Context.MODE_PRIVATE)
+                .edit()
+                .putString(title, string)
+                .commit();
+    }
+
+    @Override
+    public int getSavedInt(String title, int def) {
+        return act.getSharedPreferences(SPREF, Context.MODE_PRIVATE).getInt(title, def);
+    }
+
+    @Override
+    public void saveInt(String title, int i) {
+        act.getSharedPreferences(SPREF, Context.MODE_PRIVATE)
+                .edit()
+                .putInt(title, i)
+                .commit();
+    }*/
+
+    @Override
+    public void removeSaved(String str) {
+        act.getSharedPreferences(SPREF, Context.MODE_PRIVATE)
+                .edit()
+                .remove(str)
+                .commit();
+    }
+
 }

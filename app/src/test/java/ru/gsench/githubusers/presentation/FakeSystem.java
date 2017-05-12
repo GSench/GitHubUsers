@@ -48,4 +48,19 @@ public class FakeSystem implements SystemInterface {
         return new Pair<>(requests.poll().getBytes(), null);
     }
 
+    @Override
+    public String[] getSavedStringArray(String title, String[] def) {
+        return new String[0];
+    }
+
+    @Override
+    public void saveStringArray(String title, String[] array) {
+
+    }
+
+    @Override
+    public void removeSaved(String str) {
+
+    }
+
 }

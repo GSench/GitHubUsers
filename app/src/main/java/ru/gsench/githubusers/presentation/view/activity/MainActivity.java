@@ -2,6 +2,7 @@ package ru.gsench.githubusers.presentation.view.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -71,6 +72,16 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
             @Override
             public void onSearchAction(String currentQuery) {
                 presenter.onSearchInput(currentQuery);
+            }
+        });
+        viewHolder.searchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
+            @Override
+            public void onActionMenuItemSelected(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.favorites:
+                        presenter.onFavoritesMenuClick();
+                        break;
+                }
             }
         });
     }

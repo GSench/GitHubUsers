@@ -2,7 +2,7 @@ package ru.gsench.githubusers.presentation.view;
 
 import java.util.ArrayList;
 
-import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
+import ru.gsench.githubusers.domain.interactor.GitHubUserFavor;
 
 /**
  * Created by grish on 08.05.2017.
@@ -10,11 +10,11 @@ import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
 
 public class FakeUserListView implements UserListView {
 
-    public ArrayList<GitHubUserShort> getUsers() {
+    public ArrayList<GitHubUserFavor> getUsers() {
         return users;
     }
 
-    private ArrayList<GitHubUserShort> users;
+    private ArrayList<GitHubUserFavor> users;
 
     @Override
     public void init() {
@@ -23,12 +23,8 @@ public class FakeUserListView implements UserListView {
     }
 
     @Override
-    public void addUsers(ArrayList<GitHubUserShort> usersToAdd) {
-        users.addAll(usersToAdd);
-        System.out.println("Added users:");
-        for(int i=users.size()-usersToAdd.size(); i<users.size(); i++){
-            System.out.println((i+1)+". "+users.get(i).getLogin());
-        }
+    public void notifyUsersAdded(int offset, int count) {
+
     }
 
     @Override
@@ -54,6 +50,16 @@ public class FakeUserListView implements UserListView {
 
     @Override
     public void closeView() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showLoading() {
 
     }
 }

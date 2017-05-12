@@ -1,11 +1,11 @@
 package ru.gsench.githubusers.presentation.view.view_etc;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import ru.gsench.githubusers.R;
-import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
+import ru.gsench.githubusers.domain.interactor.GitHubUserFavor;
 import ru.gsench.githubusers.presentation.view.aview.UserListAView;
 
 import static ru.gsench.githubusers.R.layout.user;
@@ -47,9 +47,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
 
         } else if(viewHolder instanceof NormalViewHolder){
 
-            NormalViewHolder normalViewHolder = (NormalViewHolder) viewHolder;
+            final NormalViewHolder normalViewHolder = (NormalViewHolder) viewHolder;
 
-            final GitHubUserShort user = aView.getUserAt(i-1);
+            final GitHubUserFavor user = aView.getUserAt(i-1);
             normalViewHolder.name.setText(user.getLogin());
             Glide
                     .with(aView.context)
@@ -60,15 +60,18 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             normalViewHolder.addToFavor.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    aView.addToFavor(user);
+                    user.setFavorite(!user.isFavorite());
+                    aView.onFavorIconClick(user);
+                    if(user.isFavorite()) normalViewHolder.addToFavor.setBackground(ContextCompat.getDrawable(aView.context, R.drawable.is_favorite));
+                    else normalViewHolder.addToFavor.setBackground(ContextCompat.getDrawable(aView.context, R.drawable.add_to_favorites));
                 }
             });
             normalViewHolder.main.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    aView.onUserClicked(user);
-                }
+                public void onClick(View view) { aView.onUserClicked(user); }
             });
+            if(user.isFavorite()) normalViewHolder.addToFavor.setBackground(ContextCompat.getDrawable(aView.context, R.drawable.is_favorite));
+            else normalViewHolder.addToFavor.setBackground(ContextCompat.getDrawable(aView.context, R.drawable.add_to_favorites));
 
         }
     }
@@ -124,14 +127,14 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         private CardView main;
         private TextView name;
         private ImageView avatar;
-        private Button addToFavor;
+        private View addToFavor;
 
         NormalViewHolder(View itemView) {
             super(itemView);
             main = (CardView) itemView.findViewById(R.id.user_card);
             name = (TextView) itemView.findViewById(R.id.user_name);
             avatar = (ImageView) itemView.findViewById(R.id.user_avatar);
-            addToFavor = (Button) itemView.findViewById(R.id.add_to_favorites);
+            addToFavor = itemView.findViewById(R.id.add_to_favorites);
         }
     }
 

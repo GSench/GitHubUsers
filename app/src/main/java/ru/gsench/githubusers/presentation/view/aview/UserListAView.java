@@ -8,7 +8,7 @@ import android.widget.Toast;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.LandingAnimator;
 import ru.gsench.githubusers.R;
-import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
+import ru.gsench.githubusers.domain.interactor.GitHubUserFavor;
 import ru.gsench.githubusers.presentation.presenter.UserListPresenter;
 import ru.gsench.githubusers.presentation.utils.AView;
 import ru.gsench.githubusers.presentation.utils.AViewContainer;
@@ -103,7 +103,7 @@ public class UserListAView extends AView implements UserListView {
         adapter.showLoading();
     }
 
-    public GitHubUserShort getUserAt(int i) {
+    public GitHubUserFavor getUserAt(int i) {
         return presenter.getUserAt(i);
     }
 
@@ -111,11 +111,11 @@ public class UserListAView extends AView implements UserListView {
         return presenter.getUserCount();
     }
 
-    public void addToFavor(GitHubUserShort user) {
-        presenter.addToFavor(user);
+    public void onFavorIconClick(GitHubUserFavor user) {
+        presenter.onFavorIconClick(user);
     }
 
-    public void onUserClicked(GitHubUserShort user) {
+    public void onUserClicked(GitHubUserFavor user) {
         presenter.onUserClicked(user);
     }
 }

@@ -20,12 +20,12 @@ import ru.gsench.githubusers.presentation.presenter.UserPresenter;
 public class UserInteractor implements UserUseCase {
 
     private SystemInterface system;
-    private GitHubUserShort userShort;
+    private GitHubUserFavor user;
     private function<GitHubUserShort> openInBrowser;
 
-    public UserInteractor(SystemInterface system, GitHubUserShort userShort, function<GitHubUserShort> openInBrowser) {
+    public UserInteractor(SystemInterface system, GitHubUserFavor user, function<GitHubUserShort> openInBrowser) {
         this.system = system;
-        this.userShort=userShort;
+        this.user = user;
         this.openInBrowser=openInBrowser;
     }
 
@@ -37,7 +37,7 @@ public class UserInteractor implements UserUseCase {
                     public void run(Void... params) {
                         function<Void> callback;
                         try {
-                            URL url = userShort.getUrl();
+                            URL url = user.getUrl();
                             String result = new String(system.httpGet(url, null).t);
                             final GitHubUser user = ResponseParser.parseUser(result);
                             callback = new function<Void>() {
@@ -70,8 +70,8 @@ public class UserInteractor implements UserUseCase {
     }
 
     @Override
-    public GitHubUserShort getUserShort() {
-        return userShort;
+    public GitHubUserFavor getUser() {
+        return user;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class UserInteractor implements UserUseCase {
                     public void run(Void... params) {
                         function<Void> callback;
                         try {
-                            URL url = userShort.getUrl();
+                            URL url = user.getUrl();
                             String result = new String(system.httpGet(url, null).t);
                             final ArrayList<GitHubRepository> repos = ResponseParser.parseRepositories(result);
                             callback = new function<Void>() {
@@ -121,6 +121,6 @@ public class UserInteractor implements UserUseCase {
 
     @Override
     public void openInBrowser() {
-        openInBrowser.run(userShort);
+        openInBrowser.run(user);
     }
 }

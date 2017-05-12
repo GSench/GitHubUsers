@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
 import ru.gsench.githubusers.domain.utils.function;
 import ru.gsench.githubusers.presentation.FakeSystem;
 import ru.gsench.githubusers.presentation.presenter.UserListPresenter;
@@ -109,10 +108,16 @@ public class UserListInteractorTest {
         system = new FakeSystem();
         interactor = new UserListInteractor(
                 system,
-                new function<GitHubUserShort>() {
+                new function<GitHubUserFavor>() {
                     @Override
-                    public void run(GitHubUserShort... params) {
+                    public void run(GitHubUserFavor... params) {
                         Assert.assertNotNull(params[0]);
+                    }
+                },
+                new function<GitHubUserFavor>() {
+                    @Override
+                    public void run(GitHubUserFavor... params) {
+
                     }
                 }
         );
@@ -128,10 +133,10 @@ public class UserListInteractorTest {
         system.addRequest(alicePage1);
 
         System.out.println("---------Testing setObservable---------");
-        interactor.setObservable("Alice");
+        interactor.setObservable(new SearchObservable("Alice", system, new FavoritesManagement(system)));
         TimeUnit.SECONDS.sleep(4);
-        Assert.assertEquals(1, userListView.getUsers().size());
-        Assert.assertEquals("alice", userListView.getUsers().get(0).getLogin());
+        Assert.assertEquals(1, presenter.getUsers().size());
+        Assert.assertEquals("alice", presenter.getUsers().get(0).getLogin());
         System.out.println("Test successful");
     }
 
@@ -141,12 +146,12 @@ public class UserListInteractorTest {
         system.addRequest(tomPage1);
 
         System.out.println("---------Testing searchWithBreaking---------");
-        interactor.setObservable("Alice");
+        interactor.setObservable(new SearchObservable("Alice", system, new FavoritesManagement(system)));
         TimeUnit.SECONDS.sleep(1);
-        interactor.setObservable("Tom");
+        interactor.setObservable(new SearchObservable("Tom", system, new FavoritesManagement(system)));
         TimeUnit.SECONDS.sleep(4);
-        Assert.assertEquals(1, userListView.getUsers().size());
-        Assert.assertEquals("tom", userListView.getUsers().get(0).getLogin());
+        Assert.assertEquals(1, presenter.getUsers().size());
+        Assert.assertEquals("tom", presenter.getUsers().get(0).getLogin());
         System.out.println("Test successful");
     }
 
@@ -156,15 +161,15 @@ public class UserListInteractorTest {
         system.addRequest(alicePage2);
 
         System.out.println("---------Testing searchWithContinuing---------");
-        interactor.setObservable("Alice");
+        interactor.setObservable(new SearchObservable("Alice", system, new FavoritesManagement(system)));
         TimeUnit.SECONDS.sleep(4);
-        Assert.assertEquals(1, userListView.getUsers().size());
-        Assert.assertEquals("alice", userListView.getUsers().get(0).getLogin());
+        Assert.assertEquals(1, presenter.getUsers().size());
+        Assert.assertEquals("alice", presenter.getUsers().get(0).getLogin());
         presenter.scrolled(1, 1, 0);
         TimeUnit.SECONDS.sleep(4);
-        Assert.assertEquals(2, userListView.getUsers().size());
-        Assert.assertEquals("alice", userListView.getUsers().get(0).getLogin());
-        Assert.assertEquals("mozamimy", userListView.getUsers().get(1).getLogin());
+        Assert.assertEquals(2, presenter.getUsers().size());
+        Assert.assertEquals("alice", presenter.getUsers().get(0).getLogin());
+        Assert.assertEquals("mozamimy", presenter.getUsers().get(1).getLogin());
         System.out.println("Test successful");
     }
 

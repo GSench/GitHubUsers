@@ -2,7 +2,7 @@ package ru.gsench.githubusers.presentation.presenter;
 
 import java.util.ArrayList;
 
-import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
+import ru.gsench.githubusers.domain.interactor.GitHubUserFavor;
 import ru.gsench.githubusers.domain.usecase.UserListUseCase;
 import ru.gsench.githubusers.presentation.view.UserListView;
 
@@ -19,7 +19,11 @@ public class UserListPresenter {
 
     private UserListUseCase interactor;
 
-    private ArrayList<GitHubUserShort> users;
+    public ArrayList<GitHubUserFavor> getUsers() {
+        return users;
+    }
+
+    private ArrayList<GitHubUserFavor> users;
 
     public void setView(UserListView view) {
         this.view = view;
@@ -39,7 +43,7 @@ public class UserListPresenter {
         interactor.subscribe(this);
     }
 
-    public void addUsers(ArrayList<GitHubUserShort> users, int totalCount){
+    public void addUsers(ArrayList<GitHubUserFavor> users, int totalCount){
         this.users.addAll(users);
         int prevOffset = offset;
         offset+=users.size();
@@ -65,7 +69,7 @@ public class UserListPresenter {
         users.clear();
     }
 
-    public void onUserClicked(GitHubUserShort user){
+    public void onUserClicked(GitHubUserFavor user){
         interactor.openUser(user);
     }
 
@@ -81,7 +85,7 @@ public class UserListPresenter {
         view.closeView();
     }
 
-    public GitHubUserShort getUserAt(int i) {
+    public GitHubUserFavor getUserAt(int i) {
         return users.get(i);
     }
 
@@ -89,8 +93,8 @@ public class UserListPresenter {
         return users.size();
     }
 
-    public void addToFavor(GitHubUserShort user) {
-        interactor.addToFavor(user);
+    public void onFavorIconClick(GitHubUserFavor user) {
+        interactor.pushFavorite(user);
     }
 
     public void updateList() {

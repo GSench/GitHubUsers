@@ -17,17 +17,19 @@ import ru.gsench.githubusers.domain.utils.Pair;
 public class SearchObservable extends UserListObservable {
 
     private SystemInterface system;
+    private FavoritesManagement favorites;
 
-    public SearchObservable(String query, SystemInterface system) {
+    public SearchObservable(String query, SystemInterface system, FavoritesManagement favorites) {
         super(query);
         this.system=system;
+        this.favorites=favorites;
     }
 
     @Override
-    public Pair<ArrayList<GitHubUserShort>, Integer> obtain(int limit, int offset) throws IOException, ResponseParser.ParseException {
+    public Pair<ArrayList<GitHubUserFavor>, Integer> obtain(int limit, int offset) throws IOException, ResponseParser.ParseException {
         URL url = GitHubRequests.searchUser(query, limit, offset);
         String result = new String(system.httpGet(url, null).t);
         Pair<ArrayList<GitHubUserShort>, Integer> users = ResponseParser.parseSearchResults(result);
-        return users;
+        return new Pair<>(favorites.sortFavorites(users.t), users.u);
     }
 }

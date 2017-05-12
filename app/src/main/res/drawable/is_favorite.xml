@@ -12,6 +12,6 @@
         android:bottom="33dp"
         android:left="33dp"
         android:right="33dp"
-        android:drawable="@drawable/ic_favorite_border"/>
+        android:drawable="@drawable/ic_favorite"/>
 
 </layer-list>
