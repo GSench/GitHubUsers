@@ -22,12 +22,14 @@ import ru.gsench.githubusers.presentation.view.CoordinatorView;
 import ru.gsench.githubusers.presentation.view.aview.UserListAView;
 import ru.gsench.githubusers.presentation.view.view_etc.AnimationManager;
 import ru.gsench.githubusers.presentation.view.view_etc.PermissionManager;
+import ru.gsench.githubusers.presentation.view.view_etc.SuggestionsManager;
 import ru.gsench.githubusers.presentation.viewholder.MainViewHolder;
 
 public class MainActivity extends AppCompatActivity implements CoordinatorView {
 
     private CoordinatorPresenter presenter;
     private PermissionManager permissionManager;
+    private SuggestionsManager suggestionsManager;
     private MainViewHolder viewHolder;
 
     @Override
@@ -54,23 +56,17 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
         };
         viewHolder.helloContent.setOnClickListener(onStartBtn);
         viewHolder.searchImage.setOnClickListener(onStartBtn);
-        viewHolder.searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, final String newQuery) {
-
-                //get suggestions based on newQuery
-                //pass them on to the search view
-                //viewHolder.searchView.swapSuggestions(newQuery);
-            }
-        });
+        suggestionsManager = new SuggestionsManager(viewHolder.searchView);
+        suggestionsManager.init();
         viewHolder.searchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
             @Override
             public void onSuggestionClicked(SearchSuggestion searchSuggestion) {
-
+                presenter.onSearchInput(searchSuggestion.getBody());
             }
 
             @Override
             public void onSearchAction(String currentQuery) {
+                suggestionsManager.saveSuggestion(currentQuery.trim());
                 presenter.onSearchInput(currentQuery);
             }
         });
