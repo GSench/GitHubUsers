@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
             public void onActionMenuItemSelected(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.favorites:
+                        viewHolder.searchView.clearQuery();
+                        viewHolder.searchView.clearSearchFocus();
                         presenter.onFavoritesMenuClick();
                         break;
                 }
@@ -84,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
 
     @Override
     public void openSearchView() {
+        viewHolder.searchImage.setOnClickListener(null);
+        viewHolder.helloContent.setOnClickListener(null);
         AnimationManager.openSearchView(viewHolder);
     }
 

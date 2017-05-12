@@ -26,57 +26,58 @@ public class AnimationManager {
     //TODO block ui during animation
 
     public static void openSearchView(final MainViewHolder mainViewHolder){
-        final View view = mainViewHolder.background;
-        final View searchImage = mainViewHolder.searchImage;
+        try {
+            final View view = mainViewHolder.background;
+            final View searchImage = mainViewHolder.searchImage;
 
-        // get the center for the clipping circle
-        final int cx = (searchImage.getLeft() + searchImage.getRight()) / 2;
-        final int cy = (searchImage.getTop() + searchImage.getBottom()) / 2;
+            // get the center for the clipping circle
+            final int cx = (searchImage.getLeft() + searchImage.getRight()) / 2;
+            final int cy = (searchImage.getTop() + searchImage.getBottom()) / 2;
 
-        // get the radius for the clipping circle
-        int dx = Math.max(cx, view.getWidth() - cx);
-        int dy = Math.max(cy, view.getHeight() - cy);
-        float startR = (float) Math.hypot(dx, dy);
-        final float finalR = (float) searchImage.getWidth()*0.375f;
+            // get the radius for the clipping circle
+            int dx = Math.max(cx, view.getWidth() - cx);
+            int dy = Math.max(cy, view.getHeight() - cy);
+            float startR = (float) Math.hypot(dx, dy);
+            final float finalR = (float) searchImage.getWidth()*0.375f;
 
-        Animator backgroundAnim = ViewAnimationUtils.createCircularReveal(view, cx, cy, startR, finalR);
-        backgroundAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-        backgroundAnim.setDuration(400);
-        backgroundAnim.addListener(new MyAnimatorListener(){
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                mainViewHolder.backgroundFullContainer.setVisibility(View.GONE);
-                mainViewHolder.backgroundCircle.setX(cx-finalR);
-                mainViewHolder.backgroundCircle.setY(cy-finalR);
-                mainViewHolder.backgroundCircle.setVisibility(View.VISIBLE);
-                startArcMovingAnimation(mainViewHolder);
-            }
-        });
-        backgroundAnim.start();
+            Animator backgroundAnim = ViewAnimationUtils.createCircularReveal(view, cx, cy, startR, finalR);
+            backgroundAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+            backgroundAnim.setDuration(400);
+            backgroundAnim.addListener(new MyAnimatorListener(){
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    try {
+                        mainViewHolder.backgroundFullContainer.setVisibility(View.GONE);
+                        mainViewHolder.backgroundCircle.setX(cx-finalR);
+                        mainViewHolder.backgroundCircle.setY(cy-finalR);
+                        mainViewHolder.backgroundCircle.setVisibility(View.VISIBLE);
+                        searchImage.setVisibility(View.GONE);
+                        startArcMovingAnimation(mainViewHolder);
+                    } catch (Throwable t){}
+                }
+            });
+            backgroundAnim.start();
 
-        ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(searchImage, "scaleX", 0.375f);
-        ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(searchImage, "scaleY", 0.375f);
-        scaleDownY.setDuration(400);
-        scaleDownX.setDuration(400);
-        AnimatorSet scaleDown = new AnimatorSet();
-        scaleDown.play(scaleDownX).with(scaleDownY);
-        scaleDown.start();
-        scaleDown.addListener(new MyAnimatorListener(){
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                searchImage.setVisibility(View.GONE);
-            }
-        });
+            ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(searchImage, "scaleX", 0.375f);
+            ObjectAnimator scaleDownY = ObjectAnimator.ofFloat(searchImage, "scaleY", 0.375f);
+            scaleDownY.setDuration(400);
+            scaleDownX.setDuration(400);
+            AnimatorSet scaleDown = new AnimatorSet();
+            scaleDown.play(scaleDownX).with(scaleDownY);
+            scaleDown.start();
 
-        AlphaAnimation animation1 = new AlphaAnimation(1f, 0f);
-        animation1.setDuration(400);
-        animation1.setAnimationListener(new MyAnimationListener(){
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mainViewHolder.helloContent.setVisibility(View.GONE);
-            }
-        });
-        mainViewHolder.helloContent.startAnimation(animation1);
+            AlphaAnimation animation1 = new AlphaAnimation(1f, 0f);
+            animation1.setDuration(400);
+            animation1.setAnimationListener(new MyAnimationListener(){
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    try {
+                        mainViewHolder.helloContent.setVisibility(View.GONE);
+                    } catch (Throwable t){}
+                }
+            });
+            mainViewHolder.helloContent.startAnimation(animation1);
+        } catch (Throwable t){}
     }
 
     private static void startArcMovingAnimation(final MainViewHolder viewHolder){
@@ -87,8 +88,10 @@ public class AnimationManager {
         arcAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(com.nineoldandroids.animation.Animator animation) {
-                startSearchViewAnimation(viewHolder);
-                super.onAnimationEnd(animation);
+                try {
+                    startSearchViewAnimation(viewHolder);
+                    super.onAnimationEnd(animation);
+                } catch (Throwable t){}
             }
         });
         arcAnimator.start();
@@ -106,6 +109,14 @@ public class AnimationManager {
         Animator searchViewAnim = ViewAnimationUtils.createCircularReveal(viewHolder.searchView, cx, cy, w/2, finalR);
         searchViewAnim.setInterpolator(new AccelerateDecelerateInterpolator());
         searchViewAnim.setDuration(400);
+        searchViewAnim.addListener(new MyAnimatorListener(){
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                try {
+                    viewHolder.searchView.setSearchFocused(true);
+                } catch (Throwable t){}
+            }
+        });
         searchViewAnim.start();
     }
 }
