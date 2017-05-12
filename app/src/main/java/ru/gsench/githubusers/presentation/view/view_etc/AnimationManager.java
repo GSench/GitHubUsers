@@ -118,4 +118,11 @@ public class AnimationManager {
         });
         searchViewAnim.start();
     }
+
+    public static void fadeInAnimation(View v){
+        v.setVisibility(View.VISIBLE);
+        AlphaAnimation animation1 = new AlphaAnimation(0f, 1f);
+        animation1.setDuration(100);
+        v.startAnimation(animation1);
+    }
 }

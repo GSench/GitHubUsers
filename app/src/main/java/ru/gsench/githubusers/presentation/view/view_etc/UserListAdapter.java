@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import ru.gsench.githubusers.R;
 import ru.gsench.githubusers.domain.interactor.UserModel;
 import ru.gsench.githubusers.presentation.view.aview.UserListAView;
@@ -54,7 +55,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
             Glide
                     .with(aView.context)
                     .load(user.getAvatar().toString())
+                    .placeholder(R.drawable.user_small)
                     .crossFade()
+                    .bitmapTransform(new CropCircleTransformation(aView.context))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(normalViewHolder.avatar);
             normalViewHolder.addToFavor.setOnClickListener(new View.OnClickListener() {
