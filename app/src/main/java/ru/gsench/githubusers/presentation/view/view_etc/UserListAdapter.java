@@ -1,7 +1,6 @@
 package ru.gsench.githubusers.presentation.view.view_etc;
 
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,13 +61,14 @@ public class UserListAdapter extends HeaderFooterAdapter<UserListAdapter.MyHeade
                 else viewHolder.addToFavor.setBackground(ContextCompat.getDrawable(aView.context, R.drawable.add_to_favorites));
             }
         });
-        viewHolder.avatar.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 aView.onUserClicked(user);
                 System.out.println("CLICKED!");
             }
-        });
+        };
+        viewHolder.click.setOnClickListener(onClick);
         if(user.isFavorite()) viewHolder.addToFavor.setBackground(ContextCompat.getDrawable(aView.context, R.drawable.is_favorite));
         else viewHolder.addToFavor.setBackground(ContextCompat.getDrawable(aView.context, R.drawable.add_to_favorites));
     }
@@ -126,14 +126,14 @@ public class UserListAdapter extends HeaderFooterAdapter<UserListAdapter.MyHeade
     }
 
     class MyNormalViewHolder extends NormalViewHolder {
-        private CardView main;
+        private View click;
         private TextView name;
         private ImageView avatar;
         private View addToFavor;
 
         MyNormalViewHolder(View itemView) {
             super(itemView);
-            main = (CardView) itemView.findViewById(R.id.user_card);
+            click=itemView.findViewById(R.id.user_click);
             name = (TextView) itemView.findViewById(R.id.user_name);
             avatar = (ImageView) itemView.findViewById(R.id.user_avatar);
             addToFavor = itemView.findViewById(R.id.add_to_favorites);
