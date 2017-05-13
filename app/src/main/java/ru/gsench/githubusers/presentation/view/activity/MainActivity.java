@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
     private PermissionManager permissionManager;
     private SuggestionsManager suggestionsManager;
     private MainViewHolder viewHolder;
+    private AViewContainer userContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
                 }
             }
         });
+        userContainer = new AViewContainer(viewHolder.viewContainer);
     }
 
     @Override
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
 
     @Override
     public void openUser(UserPresenter presenter) {
-        new UserAView(new AViewContainer(viewHolder.viewContainer), presenter).open();
+        new UserAView(userContainer, presenter).open();
     }
 
     @Override
@@ -110,7 +112,27 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
     }
 
     @Override
+    public void closeView() {
+        finish();
+    }
+
+    @Override
+    public void closeUser() {
+        userContainer.closeView();
+    }
+
+    @Override
+    public boolean isUserOpened() {
+        return userContainer.viewOpened();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         permissionManager.onPermissionCallback(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
     }
 }

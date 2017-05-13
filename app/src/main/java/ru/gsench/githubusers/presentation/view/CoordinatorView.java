@@ -15,4 +15,7 @@ public interface CoordinatorView {
     void openUserList(UserListPresenter presenter);
     void openUser(UserPresenter presenter);
     void openBrowser(URL url);
+    void closeView();
+    void closeUser();
+    boolean isUserOpened();
 }

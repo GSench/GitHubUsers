@@ -7,6 +7,8 @@ import ru.gsench.githubusers.domain.interactor.MainInteractor;
 import ru.gsench.githubusers.domain.usecase.UserUseCase;
 import ru.gsench.githubusers.presentation.view.CoordinatorView;
 
+import static android.R.attr.id;
+
 /**
  * Created by grish on 07.05.2017.
  */
@@ -47,5 +49,10 @@ public class CoordinatorPresenter {
 
     public void onFavoritesMenuClick() {
         interactor.onFavoritesOpen();
+    }
+
+    public void onBackPressed() {
+        if(view.isUserOpened()) view.closeUser();
+        else view.closeView();
     }
 }
