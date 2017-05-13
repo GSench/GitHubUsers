@@ -35,24 +35,24 @@ public class UserPresenter {
     }
 
     private void updateUser(){
-        view.showLoading();
+        //view.showUserLoading();
         UserModel user = interactor.getUser();
         view.setUser(user);
         interactor.getUser(this);
-        interactor.getRepositories(this);
-        interactor.getPinnedRepositories(this);
+        //interactor.getRepositories(this);
+        //interactor.getPinnedRepositories(this);
 
     }
 
     public void onUserReceived(GitHubUser user){
         this.user=user;
         view.setUser(user);
-        if(repos!=null) view.hideLoading();
+        if(repos!=null) view.hideUserLoading();
     }
 
     public void onReposReceived(ArrayList<GitHubRepository> repos){
         this.repos=repos;
-        if(user!=null) view.hideLoading();
+        if(user!=null) view.hideUserLoading();
         if(pinnedRepos==null) view.setRepositories(repos);
         else updateReposWithPinned();
     }

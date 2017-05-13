@@ -91,11 +91,22 @@ public class ResponseParser {
             JsonParser parser = new JsonParser();
             JsonObject mainObject = parser.parse(response).getAsJsonObject();
             GitHubUserShort userShort = initUserShort(mainObject);
-            String bio = mainObject.get("bio").getAsString();
-            String location = mainObject.get("location").getAsString();
-            String company = mainObject.get("company").getAsString();
-            String email = mainObject.get("email").getAsString();
-            String name = mainObject.get("name").getAsString();
+            String bio = null, location = null, company = null, email = null, name = userShort.getLogin();
+            try {
+                bio = mainObject.get("bio").getAsString();
+            } catch (Exception e){}
+            try {
+                location = mainObject.get("location").getAsString();
+            } catch (Exception e){}
+            try {
+                company = mainObject.get("company").getAsString();
+            } catch (Exception e){}
+            try {
+                email = mainObject.get("email").getAsString();
+            } catch (Exception e){}
+            try {
+                name = mainObject.get("name").getAsString();
+            } catch (Exception e){}
             Date created = githubDateFormat.parse(mainObject.get("created_at").getAsString());
             Date updated = githubDateFormat.parse(mainObject.get("updated_at").getAsString());
             return new GitHubUser(userShort, bio, location, email, company, name, created, updated);

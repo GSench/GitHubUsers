@@ -62,9 +62,12 @@ public class UserListAdapter extends HeaderFooterAdapter<UserListAdapter.MyHeade
                 else viewHolder.addToFavor.setBackground(ContextCompat.getDrawable(aView.context, R.drawable.add_to_favorites));
             }
         });
-        viewHolder.main.setOnClickListener(new View.OnClickListener() {
+        viewHolder.avatar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { aView.onUserClicked(user); }
+            public void onClick(View view) {
+                aView.onUserClicked(user);
+                System.out.println("CLICKED!");
+            }
         });
         if(user.isFavorite()) viewHolder.addToFavor.setBackground(ContextCompat.getDrawable(aView.context, R.drawable.is_favorite));
         else viewHolder.addToFavor.setBackground(ContextCompat.getDrawable(aView.context, R.drawable.add_to_favorites));

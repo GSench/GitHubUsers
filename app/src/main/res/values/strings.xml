@@ -10,4 +10,7 @@
     <string name="loading_error">Error loading results. Check your internet connection.</string>
     <string name="parse_error">Error loading results. Perhaps you are using an outdated App version.</string>
     <string name="unexpected_error">Unexpected error occurred while loading results. Try to restart the App. Perhaps you are using an outdated App version.</string>
+    <string name="repositories">Repositories</string>
+    <string name="created_at">Created at: %s</string>
+    <string name="updated_at">Updated at: %s</string>
 </resources>

@@ -1,5 +1,7 @@
 package ru.gsench.githubusers.presentation.view.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ import ru.gsench.githubusers.presentation.presenter.UserListPresenter;
 import ru.gsench.githubusers.presentation.presenter.UserPresenter;
 import ru.gsench.githubusers.presentation.utils.AViewContainer;
 import ru.gsench.githubusers.presentation.view.CoordinatorView;
+import ru.gsench.githubusers.presentation.view.aview.UserAView;
 import ru.gsench.githubusers.presentation.view.aview.UserListAView;
 import ru.gsench.githubusers.presentation.view.view_etc.AnimationManager;
 import ru.gsench.githubusers.presentation.view.view_etc.PermissionManager;
@@ -98,12 +101,12 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
 
     @Override
     public void openUser(UserPresenter presenter) {
-
+        new UserAView(new AViewContainer(viewHolder.viewContainer), presenter).open();
     }
 
     @Override
     public void openBrowser(URL url) {
-
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url.toString())));
     }
 
     @Override
