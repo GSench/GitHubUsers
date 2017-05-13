@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ public class UserViewHolder {
     public Toolbar toolbar;
     public View favorite;
     public View openInBrowser;
+    public Button back;
 
     public ViewGroup userInfo;
     public LinearLayout emailLayout;
@@ -45,6 +47,7 @@ public class UserViewHolder {
         toolbar = (Toolbar) main.findViewById(R.id.anim_toolbar);
         favorite = main.findViewById(R.id.favorite_button);
         openInBrowser = main.findViewById(R.id.open_in_browser);
+        back = (Button) main.findViewById(R.id.back_btn);
 
         userInfo = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.user_info, parent, false);
         emailLayout = (LinearLayout) userInfo.findViewById(R.id.email_layout);

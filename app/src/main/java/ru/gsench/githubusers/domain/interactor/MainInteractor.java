@@ -46,6 +46,15 @@ public class MainInteractor {
         return userListInteractor;
     }
 
+    private function<UserModel> onFavoriteChanged = new function<UserModel>() {
+        @Override
+        public void run(UserModel... params) {
+            if(params[0].isFavorite()) favorites.addToFavorites(params[0]);
+            else favorites.removeFromFavorites(params[0]);
+            if(mode==MODE_FAVOR) onFavoritesOpen();
+        }
+    };
+
     private void initUserListInteractor(){
         if(userListInteractor==null)
             userListInteractor = new UserListInteractor(system, new function<UserModel>() {
@@ -56,15 +65,8 @@ public class MainInteractor {
                         public void run(GitHubUserShort... params) {
                             coordinator.openInBrowser(params[0].getHtmlUrl());
                         }
-                    }));
+                    }, onFavoriteChanged));
                 }
-            }, new function<UserModel>() {
-                @Override
-                public void run(UserModel... params) {
-                    if(params[0].isFavorite()) favorites.addToFavorites(params[0]);
-                    else favorites.removeFromFavorites(params[0]);
-                    if(mode==MODE_FAVOR) onFavoritesOpen();
-                }
-            });
+            }, onFavoriteChanged);
     }
 }

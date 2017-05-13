@@ -14,7 +14,7 @@
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <ru.gsench.githubusers.presentation.view.view_etc.CollapsingToolbarLayoutBugFix
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -37,12 +37,19 @@
                 android:layout_gravity="bottom"
                 android:background="@drawable/scrim"/>
 
-            <android.support.v7.widget.Toolbar
+            <ru.gsench.githubusers.presentation.view.view_etc.ToolbarTitleMarginBugFix
                 android:id="@+id/anim_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="56dp"
+                    android:id="@+id/back_btn"
+                    android:layout_gravity="left"
+                    android:background="@drawable/menu_back_btn"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -51,19 +58,21 @@
 
                     <Button
                         android:id="@+id/open_in_browser"
+                        android:background="@drawable/menu_browser_btn"
                         android:layout_width="?attr/actionBarSize"
                         android:layout_height="?attr/actionBarSize" />
 
                     <Button
                         android:id="@+id/favorite_button"
+                        android:background="@drawable/menu_favorite"
                         android:layout_width="?attr/actionBarSize"
                         android:layout_height="?attr/actionBarSize" />
 
                 </LinearLayout>
 
-            </android.support.v7.widget.Toolbar>
+            </ru.gsench.githubusers.presentation.view.view_etc.ToolbarTitleMarginBugFix>
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </ru.gsench.githubusers.presentation.view.view_etc.CollapsingToolbarLayoutBugFix>
 
     </android.support.design.widget.AppBarLayout>
 

@@ -13,4 +13,5 @@ public interface UserUseCase {
     public void getRepositories(UserPresenter presenter);
     public void getPinnedRepositories(UserPresenter presenter);
     public void openInBrowser();
+    public void notifyFavorChanged(UserModel userShort);
 }

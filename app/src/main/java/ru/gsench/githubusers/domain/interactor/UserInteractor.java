@@ -22,11 +22,13 @@ public class UserInteractor implements UserUseCase {
     private SystemInterface system;
     private UserModel user;
     private function<GitHubUserShort> openInBrowser;
+    private function<UserModel> onFavoriteChanged;
 
-    public UserInteractor(SystemInterface system, UserModel user, function<GitHubUserShort> openInBrowser) {
+    public UserInteractor(SystemInterface system, UserModel user, function<GitHubUserShort> openInBrowser, function<UserModel> onFavoriteChanged) {
         this.system = system;
         this.user = user;
         this.openInBrowser=openInBrowser;
+        this.onFavoriteChanged=onFavoriteChanged;
     }
 
     @Override
@@ -122,5 +124,10 @@ public class UserInteractor implements UserUseCase {
     @Override
     public void openInBrowser() {
         openInBrowser.run(user);
+    }
+
+    @Override
+    public void notifyFavorChanged(UserModel userShort) {
+        onFavoriteChanged.run(user);
     }
 }

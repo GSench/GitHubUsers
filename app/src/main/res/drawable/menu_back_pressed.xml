@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape
+            xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <solid
+                android:color="@color/hint_light_text"/>
+
+            <size
+                android:width="40dp"
+                android:height="56dp"/>
+        </shape>
+    </item>
+    <item android:top="16dp"
+        android:bottom="16dp"
+        android:right="16dp"
+        android:drawable="@drawable/ic_arrow"/>
+
+</layer-list>

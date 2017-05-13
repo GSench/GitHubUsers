@@ -65,7 +65,6 @@ public class UserListAdapter extends HeaderFooterAdapter<UserListAdapter.MyHeade
             @Override
             public void onClick(View view) {
                 aView.onUserClicked(user);
-                System.out.println("CLICKED!");
             }
         };
         viewHolder.click.setOnClickListener(onClick);

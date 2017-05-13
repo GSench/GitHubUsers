@@ -94,4 +94,9 @@ public class UserPresenter {
     public void showUnexpectedError() {
         view.showUnexpectedError();
     }
+
+    public void onFavorClick(UserModel userShort) {
+        userShort.setFavorite(!userShort.isFavorite());
+        interactor.notifyFavorChanged(userShort);
+    }
 }

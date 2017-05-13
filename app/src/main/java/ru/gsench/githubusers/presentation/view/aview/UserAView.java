@@ -1,5 +1,6 @@
 package ru.gsench.githubusers.presentation.view.aview;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,7 @@ public class UserAView extends AView implements UserView {
 
     @Override
     public void init() {
-        viewHolder.toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        viewHolder.back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 presenter.onBackPressed();
@@ -91,7 +92,7 @@ public class UserAView extends AView implements UserView {
     }
 
     @Override
-    public void setUser(UserModel userShort) {
+    public void setUser(final UserModel userShort) {
         viewHolder.openInBrowser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +107,16 @@ public class UserAView extends AView implements UserView {
                 .placeholder(R.drawable.user_big)
                 .into(viewHolder.header);
         viewHolder.collapsingToolbarLayout.setTitle(userShort.getLogin());
+        viewHolder.favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.onFavorClick(userShort);
+                if(userShort.isFavorite()) viewHolder.favorite.setBackground(ContextCompat.getDrawable(context, R.drawable.menu_is_favorite));
+                else viewHolder.favorite.setBackground(ContextCompat.getDrawable(context, R.drawable.menu_favorite));
+            }
+        });
+        if(userShort.isFavorite()) viewHolder.favorite.setBackground(ContextCompat.getDrawable(context, R.drawable.menu_is_favorite));
+        else viewHolder.favorite.setBackground(ContextCompat.getDrawable(context, R.drawable.menu_favorite));
     }
 
     @Override
