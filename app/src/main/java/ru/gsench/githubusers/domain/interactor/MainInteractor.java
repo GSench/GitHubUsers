@@ -52,6 +52,7 @@ public class MainInteractor {
             if(params[0].isFavorite()) favorites.addToFavorites(params[0]);
             else favorites.removeFromFavorites(params[0]);
             if(mode==MODE_FAVOR) onFavoritesOpen();
+            else if(mode==MODE_SEARCH) userListInteractor.updateUser(params[0]);
         }
     };
 

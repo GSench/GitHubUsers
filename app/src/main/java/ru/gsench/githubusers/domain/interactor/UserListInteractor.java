@@ -123,4 +123,8 @@ public class UserListInteractor implements UserListUseCase {
     public void pushFavorite(UserModel user) {
         onFavoriteChanged.run(user);
     }
+
+    public void updateUser(UserModel userModel){
+        presenter.updateUser(userModel);
+    }
 }

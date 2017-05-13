@@ -103,6 +103,11 @@ public class UserListAView extends AView implements UserListView {
         adapter.showLoading();
     }
 
+    @Override
+    public void notifyUserChanged(int i) {
+        adapter.notifyNormalItemChanged(i);
+    }
+
     public UserModel getUserAt(int i) {
         return presenter.getUserAt(i);
     }

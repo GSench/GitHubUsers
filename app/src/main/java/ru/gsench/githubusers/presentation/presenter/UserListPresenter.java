@@ -101,4 +101,14 @@ public class UserListPresenter {
         view.showLoading();
         interactor.updateList(limit, offset);
     }
+
+    public void updateUser(UserModel userModel) {
+        for(int i=0; i<users.size(); i++){
+            if(users.get(i).getId()==userModel.getId()){
+                users.remove(i);
+                users.add(i, userModel);
+                view.notifyUserChanged(i);
+            }
+        }
+    }
 }

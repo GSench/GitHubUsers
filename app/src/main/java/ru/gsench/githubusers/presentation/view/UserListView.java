@@ -15,4 +15,5 @@ public interface UserListView {
     public void closeView();
     public void hideLoading();
     public void showLoading();
+    public void notifyUserChanged(int i);
 }

@@ -44,6 +44,10 @@ public abstract class HeaderFooterAdapter<HVH extends HeaderViewHolder, NVH exte
         notifyItemRangeInserted(offset+1, count);
     }
 
+    public void notifyNormalItemChanged(int i){
+        notifyItemChanged(i+1);
+    }
+
     public void clearList(){
         notifyItemRangeRemoved(1, getNormalItemsCount());
     }
