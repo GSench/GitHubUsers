@@ -5,6 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:paddingLeft="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:fontFamily="sans-serif-light"
+        android:textSize="10pt"
+        android:textColor="@color/primary_text"
+        android:maxLines="1"/>
+
     <LinearLayout
         android:id="@+id/email_layout"
         android:layout_width="match_parent"

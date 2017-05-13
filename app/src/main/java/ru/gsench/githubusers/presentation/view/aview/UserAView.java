@@ -75,6 +75,8 @@ public class UserAView extends AView implements UserView {
 
         adapter.userPage.addView(viewHolder.userInfo, 0);
 
+        viewHolder.login.setText(param.getLogin());
+
         if(param.getBio()!=null) viewHolder.bio.setText(param.getBio());
         else viewHolder.bioLayout.setVisibility(View.GONE);
 

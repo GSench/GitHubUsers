@@ -27,6 +27,7 @@ public class UserViewHolder {
     public View favorite;
     public View openInBrowser;
     public Button back;
+    public TextView login;
 
     public ViewGroup userInfo;
     public LinearLayout emailLayout;
@@ -50,6 +51,7 @@ public class UserViewHolder {
         back = (Button) main.findViewById(R.id.back_btn);
 
         userInfo = (ViewGroup) LayoutInflater.from(parent.getContext()).inflate(R.layout.user_info, parent, false);
+        login = (TextView) userInfo.findViewById(R.id.login);
         emailLayout = (LinearLayout) userInfo.findViewById(R.id.email_layout);
         email = (TextView) emailLayout.findViewById(R.id.email);
         bioLayout = (LinearLayout) userInfo.findViewById(R.id.bio_layout);
