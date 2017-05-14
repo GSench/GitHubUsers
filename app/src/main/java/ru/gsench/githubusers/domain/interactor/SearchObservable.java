@@ -30,6 +30,8 @@ public class SearchObservable extends UserListObservable {
         URL url = GitHubRequests.searchUser(query, limit, offset);
         String result = new String(system.httpGet(url, null).t);
         Pair<ArrayList<GitHubUserShort>, Integer> users = ResponseParser.parseSearchResults(result);
-        return new Pair<>(favorites.sortFavorites(users.t), users.u);
+        return new Pair<>(
+                favorites.sortFavorites(users.t),
+                users.u>1000 ? 1000 : users.u);
     }
 }

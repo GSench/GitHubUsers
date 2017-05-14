@@ -19,7 +19,6 @@
         <com.balysv.materialripple.MaterialRippleLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:mrl_rippleInAdapter="true"
             app:mrl_rippleDuration="200"
             app:mrl_rippleFadeDuration="75"
             app:mrl_rippleColor="@color/colorPrimaryLight"
@@ -59,7 +58,6 @@
             <com.balysv.materialripple.MaterialRippleLayout
                 android:layout_width="90dp"
                 android:layout_height="90dp"
-                app:mrl_rippleInAdapter="true"
                 app:mrl_rippleDuration="200"
                 app:mrl_rippleFadeDuration="75"
                 app:mrl_rippleColor="@color/colorPrimaryLight"

@@ -4,6 +4,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -73,6 +74,7 @@ public class UserAView extends AView implements UserView {
     public void setUser(GitHubUser param) {
         viewHolder.collapsingToolbarLayout.setTitle(param.getName());
 
+        viewHolder.userInfo.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         adapter.userPage.addView(viewHolder.userInfo, 0);
 
         viewHolder.login.setText(param.getLogin());
