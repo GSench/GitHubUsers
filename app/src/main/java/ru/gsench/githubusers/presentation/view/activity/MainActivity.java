@@ -86,6 +86,23 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
                 }
             }
         });
+        viewHolder.searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+            @Override
+            public void onSearchTextChanged(String oldQuery, String newQuery) {
+                suggestionsManager.suggest(newQuery);
+            }
+        });
+        viewHolder.searchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
+            @Override
+            public void onFocus() {
+                suggestionsManager.suggest("");
+            }
+
+            @Override
+            public void onFocusCleared() {
+
+            }
+        });
         userContainer = new AViewContainer(viewHolder.viewContainer);
     }
 
@@ -93,7 +110,12 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
     public void openSearchView() {
         viewHolder.searchImage.setOnClickListener(null);
         viewHolder.helloContent.setOnClickListener(null);
-        AnimationManager.openSearchView(viewHolder);
+        AnimationManager.openSearchView(viewHolder, new function<Void>() {
+            @Override
+            public void run(Void... params) {
+                viewHolder.searchView.setSearchFocused(true);
+            }
+        });
     }
 
     @Override

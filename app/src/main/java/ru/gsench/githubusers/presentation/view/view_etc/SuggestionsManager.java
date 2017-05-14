@@ -33,14 +33,6 @@ public class SuggestionsManager {
         vocabulary = new ArrayList<>();
         int c = preferences.getInt(COUNT, 0);
         for (int i=0; i<c; i++) vocabulary.add(preferences.getString(SUGGESTION+i, ""));
-        searchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, final String newQuery) {
-                //get suggestions based on newQuery
-                //pass them on to the search view
-                searchView.swapSuggestions(suggest(newQuery));
-            }
-        });
     }
 
     public void saveSuggestion(String query){
@@ -53,7 +45,7 @@ public class SuggestionsManager {
         vocabulary.add(query);
     }
 
-    private ArrayList<SearchSuggestion> suggest(String query){
+    public void suggest(String query){
         ArrayList<SearchSuggestion> suggestions = new ArrayList<>();
         for(int i=0; i<vocabulary.size(); i++){
             if(vocabulary.get(i).toLowerCase().startsWith(query.toLowerCase())) {
@@ -76,7 +68,7 @@ public class SuggestionsManager {
                 });
             }
         }
-        return suggestions;
+        searchView.swapSuggestions(suggestions);
     }
 
 }

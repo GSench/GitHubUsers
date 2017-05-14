@@ -14,6 +14,7 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import io.codetail.animation.ViewAnimationUtils;
 import io.codetail.animation.arcanimator.ArcAnimator;
 import io.codetail.animation.arcanimator.Side;
+import ru.gsench.githubusers.domain.utils.function;
 import ru.gsench.githubusers.presentation.utils.MyAnimationListener;
 import ru.gsench.githubusers.presentation.utils.MyAnimatorListener;
 import ru.gsench.githubusers.presentation.viewholder.MainViewHolder;
@@ -24,7 +25,7 @@ import ru.gsench.githubusers.presentation.viewholder.MainViewHolder;
 
 public class AnimationManager {
 
-    public static void openSearchView(final MainViewHolder mainViewHolder){
+    public static void openSearchView(final MainViewHolder mainViewHolder, final function<Void> onAnimationFinish){
         try {
             final View view = mainViewHolder.background;
             final View searchImage = mainViewHolder.searchImage;
@@ -51,7 +52,7 @@ public class AnimationManager {
                         mainViewHolder.backgroundCircle.setY(cy-finalR);
                         mainViewHolder.backgroundCircle.setVisibility(View.VISIBLE);
                         searchImage.setVisibility(View.GONE);
-                        startArcMovingAnimation(mainViewHolder);
+                        startArcMovingAnimation(mainViewHolder, onAnimationFinish);
                     } catch (Throwable t){}
                 }
             });
@@ -79,7 +80,7 @@ public class AnimationManager {
         } catch (Throwable t){}
     }
 
-    private static void startArcMovingAnimation(final MainViewHolder viewHolder){
+    private static void startArcMovingAnimation(final MainViewHolder viewHolder, final function<Void> onAnimationFinish){
         int finalX = viewHolder.backgroundCircle.getWidth()/2;
         int finalY = viewHolder.backgroundCircle.getHeight()/2;
 
@@ -88,7 +89,7 @@ public class AnimationManager {
             @Override
             public void onAnimationEnd(com.nineoldandroids.animation.Animator animation) {
                 try {
-                    startSearchViewAnimation(viewHolder);
+                    startSearchViewAnimation(viewHolder, onAnimationFinish);
                     super.onAnimationEnd(animation);
                 } catch (Throwable t){}
             }
@@ -96,7 +97,7 @@ public class AnimationManager {
         arcAnimator.start();
     }
 
-    private static void startSearchViewAnimation(final MainViewHolder viewHolder){
+    private static void startSearchViewAnimation(final MainViewHolder viewHolder, final function<Void> onAnimationFinish){
         int w = viewHolder.backgroundCircle.getWidth();
         int h = viewHolder.backgroundCircle.getHeight();
         int cx = w/2;
@@ -112,17 +113,23 @@ public class AnimationManager {
             @Override
             public void onAnimationEnd(Animator animator) {
                 try {
-                    viewHolder.searchView.setSearchFocused(true);
+                    onAnimationFinish.run();
                 } catch (Throwable t){}
             }
         });
         searchViewAnim.start();
     }
 
-    public static void fadeInAnimation(View v){
+    public static void fadeInAnimation(View v, final function<Void> onAnimationFinish){
         v.setVisibility(View.VISIBLE);
         AlphaAnimation animation1 = new AlphaAnimation(0f, 1f);
         animation1.setDuration(100);
+        animation1.setAnimationListener(new MyAnimationListener(){
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                onAnimationFinish.run();
+            }
+        });
         v.startAnimation(animation1);
     }
 }
