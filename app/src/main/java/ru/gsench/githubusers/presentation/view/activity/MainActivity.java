@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements CoordinatorView {
         viewHolder.searchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
             @Override
             public void onFocus() {
-                suggestionsManager.suggest("");
+                suggestionsManager.suggest(viewHolder.searchView.getQuery());
             }
 
             @Override

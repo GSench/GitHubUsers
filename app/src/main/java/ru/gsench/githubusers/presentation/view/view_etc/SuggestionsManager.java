@@ -8,6 +8,9 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by grish on 12.05.2017.
@@ -16,8 +19,6 @@ import java.util.ArrayList;
 public class SuggestionsManager {
 
     private static final String SUGGESTIONS = "suggestions";
-    private static final String COUNT = "count";
-    private static final String SUGGESTION = "s";
 
     private FloatingSearchView searchView;
 
@@ -30,19 +31,20 @@ public class SuggestionsManager {
 
     public void init(){
         preferences = searchView.getContext().getSharedPreferences(SUGGESTIONS, Context.MODE_PRIVATE);
-        vocabulary = new ArrayList<>();
-        int c = preferences.getInt(COUNT, 0);
-        for (int i=0; i<c; i++) vocabulary.add(preferences.getString(SUGGESTION+i, ""));
+        vocabulary = new ArrayList<>(Arrays.asList(getSavedStringArray(SUGGESTIONS, new String[0])));
     }
 
     public void saveSuggestion(String query){
-        for(String sug: vocabulary) if(sug.toLowerCase().equals(query.toLowerCase())) return;
+        for(int i=0; i<vocabulary.size(); i++)
+            if(vocabulary.get(i).toLowerCase().equals(query.toLowerCase())){
+                vocabulary.remove(i);
+                break;
+        }
+        vocabulary.add(query);
         preferences
                 .edit()
-                .putString(SUGGESTION+vocabulary.size(), query)
-                .putInt(COUNT, vocabulary.size()+1)
+                .putStringSet(SUGGESTIONS, new HashSet<>(vocabulary))
                 .commit();
-        vocabulary.add(query);
     }
 
     public void suggest(String query){
@@ -69,6 +71,14 @@ public class SuggestionsManager {
             }
         }
         searchView.swapSuggestions(suggestions);
+    }
+
+    public String[] getSavedStringArray(String title, String[] def) {
+        Set<String> defaultArr;
+        if(def==null) defaultArr = null;
+        else defaultArr = new HashSet<>(Arrays.asList(def));
+        Set<String> stringSet = preferences.getStringSet(title, defaultArr);
+        return stringSet!=null ? stringSet.toArray(new String[stringSet.size()]) : null;
     }
 
 }
