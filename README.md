@@ -4,6 +4,13 @@
 
 Android app for searching users on GitHub. It provides a simple functionality of permorming search results, and user's pages.
 
+![Start App](https://raw.githubusercontent.com/GSench/GitHubUsers/master/screenshots/2017-05-16_01-09-55.png)
+![Search for users](https://raw.githubusercontent.com/GSench/GitHubUsers/master/screenshots/2017-05-16_01-40-32.png)
+![Search suggestions](https://raw.githubusercontent.com/GSench/GitHubUsers/master/screenshots/2017-05-16_01-12-57.png)
+![Favorites list](https://raw.githubusercontent.com/GSench/GitHubUsers/master/screenshots/2017-05-16_01-13-25.png)
+![User page](https://raw.githubusercontent.com/GSench/GitHubUsers/master/screenshots/2017-05-16_01-13-56.png)
+![User page](https://raw.githubusercontent.com/GSench/GitHubUsers/master/screenshots/2017-05-16_01-14-21.png)
+
 Main features:
   - Search suggestions
   - Favorite users
