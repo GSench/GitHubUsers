@@ -1,5 +1,6 @@
 package ru.gsench.githubusers.domain.usecase;
 
+import ru.gsench.githubusers.domain.github_repo.GitHubRepository;
 import ru.gsench.githubusers.domain.interactor.UserModel;
 import ru.gsench.githubusers.presentation.presenter.UserPresenter;
 
@@ -14,4 +15,5 @@ public interface UserUseCase {
     public void getPinnedRepositories(UserPresenter presenter);
     public void openInBrowser();
     public void notifyFavorChanged(UserModel userShort);
+    public void onRepoClick(GitHubRepository repository);
 }

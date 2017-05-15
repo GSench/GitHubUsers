@@ -23,12 +23,14 @@ public class UserInteractor implements UserUseCase {
     private UserModel user;
     private function<GitHubUserShort> openInBrowser;
     private function<UserModel> onFavoriteChanged;
+    private function<GitHubRepository> openRepo;
 
-    public UserInteractor(SystemInterface system, UserModel user, function<GitHubUserShort> openInBrowser, function<UserModel> onFavoriteChanged) {
+    public UserInteractor(SystemInterface system, UserModel user, function<GitHubUserShort> openInBrowser, function<UserModel> onFavoriteChanged, function<GitHubRepository> openRepo) {
         this.system = system;
         this.user = user;
         this.openInBrowser=openInBrowser;
         this.onFavoriteChanged=onFavoriteChanged;
+        this.openRepo=openRepo;
     }
 
     @Override
@@ -84,7 +86,7 @@ public class UserInteractor implements UserUseCase {
                     public void run(Void... params) {
                         function<Void> callback;
                         try {
-                            URL url = user.getUrl();
+                            URL url = user.getRepositories();
                             String result = new String(system.httpGet(url, null).t);
                             final ArrayList<GitHubRepository> repos = ResponseParser.parseRepositories(result);
                             callback = new function<Void>() {
@@ -129,5 +131,10 @@ public class UserInteractor implements UserUseCase {
     @Override
     public void notifyFavorChanged(UserModel userShort) {
         onFavoriteChanged.run(user);
+    }
+
+    @Override
+    public void onRepoClick(GitHubRepository repository) {
+        openRepo.run(repository);
     }
 }

@@ -1,5 +1,6 @@
 package ru.gsench.githubusers.presentation.view.aview;
 
+import android.graphics.Bitmap;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -8,9 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import ru.gsench.githubusers.R;
@@ -22,6 +24,7 @@ import ru.gsench.githubusers.presentation.utils.AView;
 import ru.gsench.githubusers.presentation.utils.AViewContainer;
 import ru.gsench.githubusers.presentation.view.UserView;
 import ru.gsench.githubusers.presentation.view.view_etc.UserAdapter;
+import ru.gsench.githubusers.presentation.view.view_etc.ViewTools;
 import ru.gsench.githubusers.presentation.viewholder.UserViewHolder;
 
 /**
@@ -103,13 +106,19 @@ public class UserAView extends AView implements UserView {
                 presenter.openInBrowser();
             }
         });
+        int width = context.getResources().getDisplayMetrics().widthPixels;
+        int height = ViewTools.dpToPx(320, context);
         Glide
                 .with(context)
                 .load(userShort.getAvatar().toString())
+                .asBitmap()
                 .centerCrop()
-                .crossFade()
-                .placeholder(R.drawable.user_big)
-                .into(viewHolder.header);
+                .into(new SimpleTarget<Bitmap>(width, height) {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                        viewHolder.header.setImageBitmap(bitmap);
+                    }
+                });
         viewHolder.collapsingToolbarLayout.setTitle(userShort.getLogin());
         viewHolder.favorite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,8 +133,8 @@ public class UserAView extends AView implements UserView {
     }
 
     @Override
-    public void setRepositories(ArrayList<GitHubRepository> param) {
-
+    public void notifyReposUpdate(int offset, int count) {
+        adapter.notifyItemsAdded(offset, count);
     }
 
     @Override
@@ -168,4 +177,15 @@ public class UserAView extends AView implements UserView {
         adapter.repositoriesLoading.setVisibility(View.INVISIBLE);
     }
 
+    public GitHubRepository getRepositoryAt(int i) {
+        return presenter.getRepositoryAt(i);
+    }
+
+    public void onRepoClick(GitHubRepository repository) {
+        presenter.onRepoClick(repository);
+    }
+
+    public int getReposCount() {
+        return presenter.getReposCount();
+    }
 }

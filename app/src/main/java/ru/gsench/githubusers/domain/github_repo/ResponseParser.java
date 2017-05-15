@@ -1,6 +1,7 @@
 package ru.gsench.githubusers.domain.github_repo;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -51,14 +52,12 @@ public class ResponseParser {
     public static ArrayList<GitHubRepository> parseRepositories(String response) throws ParseException {
         try {
             JsonParser parser = new JsonParser();
-            JsonObject mainObject = parser.parse(response).getAsJsonObject();
-
             ArrayList<GitHubRepository> result = new ArrayList<>();
-            JsonArray array = mainObject.getAsJsonArray();
+            JsonArray array = parser.parse(response).getAsJsonArray();
 
-            int id, forks, stars;
-            String name, desc, lang;
-            boolean privateRepo, fork;
+            JsonElement id, forks, stars;
+            JsonElement name, desc, lang;
+            JsonElement privateRepo, fork;
             GitHubUserShort owner;
             Date created, updated;
 
@@ -66,19 +65,28 @@ public class ResponseParser {
 
             for(int i=0; i<array.size(); i++){
                 rawRepo = array.get(i).getAsJsonObject();
-                id = rawRepo.get("id").getAsInt();
-                name = rawRepo.get("name").getAsString();
+                id = rawRepo.get("id");
+                name = rawRepo.get("name");
                 owner = initUserShort(rawRepo.get("owner").getAsJsonObject());
-                privateRepo = rawRepo.get("private").getAsBoolean();
-                fork = rawRepo.get("fork").getAsBoolean();
-                desc = rawRepo.get("description").getAsString();
-                lang = rawRepo.get("language").getAsString();
-                forks = rawRepo.get("forks").getAsInt();
-                stars = rawRepo.get("stars").getAsInt();
-                created = githubDateFormat.parse(mainObject.get("created_at").getAsString());
-                updated = githubDateFormat.parse(mainObject.get("updated_at").getAsString());
+                privateRepo = rawRepo.get("private");
+                fork = rawRepo.get("fork");
+                desc = rawRepo.get("description");
+                lang = rawRepo.get("language");
+                forks = rawRepo.get("forks");
+                stars = rawRepo.get("stargazers_count");
+                created = githubDateFormat.parse(rawRepo.get("created_at").getAsString());
+                updated = githubDateFormat.parse(rawRepo.get("updated_at").getAsString());
                 result.add(new GitHubRepository(
-                        id, name, owner, privateRepo, fork, desc, lang, forks, created, updated, stars));
+                        !id.isJsonNull() ? id.getAsInt() : -1,
+                        !name.isJsonNull() ? name.getAsString() : null,
+                        owner,
+                        !privateRepo.isJsonNull() && privateRepo.getAsBoolean(),
+                        !fork.isJsonNull() && fork.getAsBoolean(),
+                        !desc.isJsonNull() ? desc.getAsString() : null,
+                        !lang.isJsonNull() ? lang.getAsString() : null,
+                        !forks.isJsonNull() ? forks.getAsInt(): 0,
+                        created, updated,
+                        !stars.isJsonNull() ? stars.getAsInt() : 0));
             }
             return result;
         } catch (Throwable t){
@@ -91,26 +99,25 @@ public class ResponseParser {
             JsonParser parser = new JsonParser();
             JsonObject mainObject = parser.parse(response).getAsJsonObject();
             GitHubUserShort userShort = initUserShort(mainObject);
-            String bio = null, location = null, company = null, email = null, name = userShort.getLogin();
-            try {
-                bio = mainObject.get("bio").getAsString();
-            } catch (Exception e){}
-            try {
-                location = mainObject.get("location").getAsString();
-            } catch (Exception e){}
-            try {
-                company = mainObject.get("company").getAsString();
-            } catch (Exception e){}
-            try {
-                email = mainObject.get("email").getAsString();
-            } catch (Exception e){}
-            try {
-                name = mainObject.get("name").getAsString();
-            } catch (Exception e){}
+            JsonElement bio, location, company, email;
+            JsonElement name;
+            bio = mainObject.get("bio");
+            location = mainObject.get("location");
+            company = mainObject.get("company");
+            email = mainObject.get("email");
+            name = mainObject.get("name");
             Date created = githubDateFormat.parse(mainObject.get("created_at").getAsString());
             Date updated = githubDateFormat.parse(mainObject.get("updated_at").getAsString());
-            return new GitHubUser(userShort, bio, location, email, company, name, created, updated);
+            return new GitHubUser(
+                    userShort,
+                    !bio.isJsonNull()?bio.getAsString():null,
+                    !location.isJsonNull()?location.getAsString():null,
+                    !email.isJsonNull()?email.getAsString():null,
+                    !company.isJsonNull()?company.getAsString():null,
+                    !name.isJsonNull()?name.getAsString():userShort.getLogin(),
+                    created, updated);
         } catch (Throwable t){
+            t.printStackTrace();
             throw new ParseException();
         }
     }

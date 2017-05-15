@@ -1,6 +1,7 @@
 package ru.gsench.githubusers.domain.interactor;
 
 import ru.gsench.githubusers.domain.SystemInterface;
+import ru.gsench.githubusers.domain.github_repo.GitHubRepository;
 import ru.gsench.githubusers.domain.github_repo.GitHubUserShort;
 import ru.gsench.githubusers.domain.usecase.UserListUseCase;
 import ru.gsench.githubusers.domain.utils.function;
@@ -66,7 +67,13 @@ public class MainInteractor {
                         public void run(GitHubUserShort... params) {
                             coordinator.openInBrowser(params[0].getHtmlUrl());
                         }
-                    }, onFavoriteChanged));
+                    }, onFavoriteChanged,
+                            new function<GitHubRepository>() {
+                                @Override
+                                public void run(GitHubRepository... params) {
+                                    coordinator.openInBrowser(params[0].getHtmlUrl());
+                                }
+                            }));
                 }
             }, onFavoriteChanged);
     }

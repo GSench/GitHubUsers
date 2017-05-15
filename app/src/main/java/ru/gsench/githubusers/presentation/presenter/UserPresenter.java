@@ -36,9 +36,10 @@ public class UserPresenter {
 
     private void updateUser(){
         UserModel user = interactor.getUser();
+        repos = new ArrayList<>();
         view.setUser(user);
         interactor.getUser(this);
-        //interactor.getRepositories(this);
+        interactor.getRepositories(this);
         //interactor.getPinnedRepositories(this);
 
     }
@@ -50,9 +51,9 @@ public class UserPresenter {
     }
 
     public void onReposReceived(ArrayList<GitHubRepository> repos){
-        this.repos=repos;
+        this.repos.addAll(repos);
         view.hideRepoLoading();
-        if(pinnedRepos==null) view.setRepositories(repos);
+        if(pinnedRepos==null) view.notifyReposUpdate(0, this.repos.size());
         else updateReposWithPinned();
     }
 
@@ -71,7 +72,7 @@ public class UserPresenter {
                 }
             }
         }
-        view.setRepositories(repos);
+        view.notifyReposUpdate(0, repos.size());
     }
 
     public void openInBrowser(){
@@ -97,5 +98,17 @@ public class UserPresenter {
     public void onFavorClick(UserModel userShort) {
         userShort.setFavorite(!userShort.isFavorite());
         interactor.notifyFavorChanged(userShort);
+    }
+
+    public GitHubRepository getRepositoryAt(int i) {
+        return repos.get(i);
+    }
+
+    public void onRepoClick(GitHubRepository repository) {
+        interactor.onRepoClick(repository);
+    }
+
+    public int getReposCount() {
+        return repos.size();
     }
 }

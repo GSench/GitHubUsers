@@ -13,4 +13,5 @@
     <color name="divider">#BDBDBD</color>
     <color name="light_text">#FAFAFA</color>
     <color name="hint_light_text">#9E9E9E</color>
+    <color name="gray_background">#EEEEEE</color>
 </resources>
