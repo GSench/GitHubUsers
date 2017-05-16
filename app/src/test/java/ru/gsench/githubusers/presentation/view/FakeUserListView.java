@@ -62,4 +62,9 @@ public class FakeUserListView implements UserListView {
     public void showLoading() {
 
     }
+
+    @Override
+    public void notifyUserChanged(int i) {
+
+    }
 }

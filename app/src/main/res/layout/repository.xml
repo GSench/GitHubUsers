@@ -103,7 +103,8 @@
                     android:layout_weight="1"
                     android:gravity="left"
                     android:layout_height="wrap_content"
-                    android:textSize="8pt"/>
+                    android:textSize="8pt"
+                    android:layout_marginLeft="4dp"/>
 
                 <ImageView
                     android:layout_marginLeft="16dp"
