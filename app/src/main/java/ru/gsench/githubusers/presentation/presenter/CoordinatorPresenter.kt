@@ -36,7 +36,7 @@ class CoordinatorPresenter(system: SystemInterface) {
 
     fun onStartButton() {
         view!!.openSearchView()
-        view!!.openUserList(UserListPresenter(interactor.userListUseCase))
+        view!!.openUserList(UserListPresenter(interactor.userListUseCase!!))
     }
 
     fun onOpenUser(useCase: UserUseCase) {

@@ -11,7 +11,9 @@ import ru.gsench.githubusers.presentation.presenter.CoordinatorPresenter
  * Created by grish on 06.05.2017.
  */
 
-class MainInteractor(private val coordinator: CoordinatorPresenter, private val system: SystemInterface) {
+class MainInteractor(
+        private val coordinator: CoordinatorPresenter,
+        private val system: SystemInterface) {
     private var userListInteractor: UserListInteractor? = null
     private val favorites: FavoritesManagement
     private var mode = MODE_SEARCH
@@ -21,10 +23,9 @@ class MainInteractor(private val coordinator: CoordinatorPresenter, private val 
     }
 
     fun onSearchInput(text: String) {
-        var text = text
         mode = MODE_SEARCH
         initUserListInteractor()
-        text = text.trim { it <= ' ' }
+        val text = text.trim { it <= ' ' }
         if (text == "") return
         userListInteractor!!.setObservable(SearchObservable(text, system, favorites))
     }
@@ -35,28 +36,35 @@ class MainInteractor(private val coordinator: CoordinatorPresenter, private val 
         userListInteractor!!.setObservable(FavoriteObservable(favorites))
     }
 
-    val userListUseCase: UserListUseCase
+    val userListUseCase: UserListUseCase?
         get() {
             initUserListInteractor()
             return userListInteractor
         }
 
-    private val onFavoriteChanged = function<UserModel> { params ->
-        if (params[0].isFavorite)
-            favorites.addToFavorites(params[0])
+    private val onFavoriteChanged = { user : UserModel ->
+        if (user.isFavorite())
+            favorites.addToFavorites(user)
         else
-            favorites.removeFromFavorites(params[0])
+            favorites.removeFromFavorites(user)
         if (mode == MODE_FAVOR)
             onFavoritesOpen()
-        else if (mode == MODE_SEARCH) userListInteractor!!.updateUser(params[0])
+        else if (mode == MODE_SEARCH) userListInteractor!!.updateUser(user)
     }
 
     private fun initUserListInteractor() {
         if (userListInteractor == null)
-            userListInteractor = UserListInteractor(system, function<UserModel> { params ->
-                coordinator.onOpenUser(UserInteractor(system, params[0], function<GitHubUserShort> { params -> coordinator.openInBrowser(params[0].htmlUrl) }, onFavoriteChanged,
-                        function<GitHubRepository> { params -> coordinator.openInBrowser(params[0].htmlUrl) }))
-            }, onFavoriteChanged)
+            userListInteractor = UserListInteractor(
+                    system,
+                    { userModel : UserModel -> coordinator.onOpenUser(
+                            UserInteractor(
+                                    system,
+                                    userModel,
+                                    { user : GitHubUserShort -> coordinator.openInBrowser(user.htmlUrl) },
+                                    onFavoriteChanged,
+                                    { repo : GitHubRepository -> coordinator.openInBrowser(repo.htmlUrl) }))
+                    },
+                    onFavoriteChanged)
     }
 
     companion object {

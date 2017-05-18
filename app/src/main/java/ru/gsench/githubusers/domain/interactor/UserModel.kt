@@ -14,7 +14,7 @@ class UserModel : GitHubUserShort {
 
     private var isFavorite = false
 
-    constructor(id: Int, login: String) : super(id, login) {}
+    constructor(id: Int, login: String) : super(id, login)
 
     constructor(id: Int, login: String, favorite: Boolean) : super(id, login) {
         isFavorite = favorite

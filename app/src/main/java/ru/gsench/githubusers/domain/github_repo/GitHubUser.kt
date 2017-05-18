@@ -28,19 +28,19 @@ class GitHubUser : GitHubUserShort {
         this.updatedAt = updatedAt
     }
 
-    var bio: String? = null
+    var bio: String
         private set
-    var location: String? = null
+    var location: String
         private set
-    var email: String? = null
+    var email: String
         private set
-    var company: String? = null
+    var company: String
         private set
-    var name: String? = null
+    var name: String
         private set
-    var createdAt: Date? = null
+    var createdAt: Date
         private set
-    var updatedAt: Date? = null
+    var updatedAt: Date
         private set
 
 }

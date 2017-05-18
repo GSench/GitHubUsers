@@ -13,7 +13,7 @@ import ru.gsench.githubusers.domain.utils.function
  */
 class AndroidInterfaceTest {
 
-    internal var androidInterface: AndroidInterface
+    internal var androidInterface: AndroidInterface = null!!
 
     @Before
     fun before() {
@@ -23,6 +23,7 @@ class AndroidInterfaceTest {
     @Test
     @Throws(Exception::class)
     fun doOnBackground() {
+                androidInterface.doOnBackground( { Assert.assertNotEquals("main", Thread.currentThread().getName()) } );
     }
 
     @Test

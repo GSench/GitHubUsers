@@ -69,22 +69,22 @@ class UserAView(container: AViewContainer, private val presenter: UserPresenter)
 
         viewHolder.login.text = param.login
 
-        if (param.bio != null)
+        if (param.bio != "")
             viewHolder.bio.text = param.bio
         else
             viewHolder.bioLayout.visibility = View.GONE
 
-        if (param.email != null)
+        if (param.email != "")
             viewHolder.email.text = param.email
         else
             viewHolder.emailLayout.visibility = View.GONE
 
-        if (param.company != null)
+        if (param.company != "")
             viewHolder.company.text = param.company
         else
             viewHolder.companyLayout.visibility = View.GONE
 
-        if (param.location != null)
+        if (param.location != "")
             viewHolder.location.text = param.location
         else
             viewHolder.locationLayout.visibility = View.GONE
@@ -102,9 +102,9 @@ class UserAView(container: AViewContainer, private val presenter: UserPresenter)
                 .load(userShort.avatar.toString())
                 .asBitmap()
                 .centerCrop()
-                .into<>(object : SimpleTarget<Bitmap>(width, height) {
-                    override fun onResourceReady(bitmap: Bitmap, anim: GlideAnimation<*>) {
-                        viewHolder.header.setImageBitmap(bitmap)
+                .into(object : SimpleTarget<Bitmap>(width, height) {
+                    override fun onResourceReady(resource: Bitmap?, glideAnimation: GlideAnimation<in Bitmap>?) {
+                        viewHolder.header.setImageBitmap(resource)
                     }
                 })
         viewHolder.collapsingToolbarLayout.title = userShort.login

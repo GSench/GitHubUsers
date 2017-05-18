@@ -1,21 +1,19 @@
 package ru.gsench.githubusers.domain.interactor
 
-import java.io.IOException
-import java.util.ArrayList
-import java.util.concurrent.TimeUnit
-
 import ru.gsench.githubusers.domain.SystemInterface
 import ru.gsench.githubusers.domain.github_repo.ResponseParser
 import ru.gsench.githubusers.domain.usecase.UserListUseCase
-import ru.gsench.githubusers.domain.utils.Pair
-import ru.gsench.githubusers.domain.utils.function
 import ru.gsench.githubusers.presentation.presenter.UserListPresenter
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by grish on 08.05.2017.
  */
 
-class UserListInteractor(private val system: SystemInterface, private val onOpenUser: function<UserModel>, private val onFavoriteChanged: function<UserModel>) : UserListUseCase {
+class UserListInteractor(val system: SystemInterface,
+                         private val onOpenUser: (UserModel)->Unit,
+                         private val onFavoriteChanged: (UserModel)->Unit) : UserListUseCase {
     private var presenter: UserListPresenter? = null
     private var observable: UserListObservable? = null
     private var loading = false
@@ -50,16 +48,14 @@ class UserListInteractor(private val system: SystemInterface, private val onOpen
     private fun updateList(limit: Int, offset: Int, isRetry: Boolean) {
         if (observable == null || presenter == null || loading) return
         loading = true //protect for multiply queries
-        val queryTest = observable
-        system.doOnBackground //execution observable on new thread
-        {
-            var callback: function<Void>
+        val queryTest = observable //execution observable on new thread
+        system.doOnBackground {
             try {
                 val users = observable!!.obtain(limit, offset)
-                callback = function<Void> { presenter!!.addUsers(users.t, users.u) }
+                present( { presenter!!.addUsers(users.t, users.u) }, queryTest )
             } catch (e: IOException) {
                 e.printStackTrace()
-                callback = function<Void> {
+                present( {
                     if (!isRetry) presenter!!.showLoadingError()
                     system.doOnBackground {
                         try {
@@ -69,31 +65,29 @@ class UserListInteractor(private val system: SystemInterface, private val onOpen
 
                         system.doOnForeground { updateList(limit, offset, true) }
                     }
-                }
+                }, queryTest)
             } catch (e: ResponseParser.ParseException) {
                 e.printStackTrace()
-                callback = function<Void> { presenter!!.showParseError() }
+                present( { presenter!!.showParseError() }, queryTest)
             } catch (e: Exception) {
                 e.printStackTrace()
-                callback = function<Void> { presenter!!.showUnexpectedError() }
+                present({ presenter!!.showUnexpectedError() }, queryTest)
             }
-
             loading = false
-            present(callback, queryTest)
         }
     }
 
-    private fun present(result: function<Void>, forRequest: UserListObservable) {
+    private fun present(result: ()->Unit, forRequest: UserListObservable?) {
         if (observable == null || observable != forRequest) return  //checking that results are up to date
         system.doOnForeground(result) //performing results
     }
 
     override fun openUser(user: UserModel) {
-        onOpenUser.run(user)
+        onOpenUser(user)
     }
 
     override fun pushFavorite(user: UserModel) {
-        onFavoriteChanged.run(user)
+        onFavoriteChanged(user)
     }
 
     fun updateUser(userModel: UserModel) {

@@ -14,7 +14,9 @@ import ru.gsench.githubusers.domain.utils.Pair
  * Created by grish on 11.05.2017.
  */
 
-class SearchObservable(query: String, private val system: SystemInterface, private val favorites: FavoritesManagement) : UserListObservable(query) {
+class SearchObservable(query: String,
+                       private val system: SystemInterface,
+                       private val favorites: FavoritesManagement) : UserListObservable(query) {
 
     @Throws(IOException::class, ResponseParser.ParseException::class)
     override fun obtain(limit: Int, offset: Int): Pair<ArrayList<UserModel>, Int> {

@@ -15,7 +15,7 @@ class FavoritesManagement(private val system: SystemInterface) {
 
     private fun fillFavorites() {
         if (favorites != null) return
-        val fav = system.getSavedStringArray(FAVORITES, arrayOfNulls<String>(0))
+        val fav = system.getSavedStringArray(FAVORITES, Array<String>(0, {_->""}))
         favorites = ArrayList<UserModel>(fav.size)
         for (favor in fav) {
             val div = favor.split(divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -29,7 +29,7 @@ class FavoritesManagement(private val system: SystemInterface) {
 
     fun getFavorites(): ArrayList<UserModel> {
         fillFavorites()
-        return favorites
+        return favorites!!
     }
 
     fun isFavorite(user: GitHubUserShort): Boolean {
@@ -48,8 +48,7 @@ class FavoritesManagement(private val system: SystemInterface) {
     fun addToFavorites(user: GitHubUserShort) {
         fillFavorites()
         favorites!!.add(0, UserModel(user, true))
-        val fav = arrayOfNulls<String>(favorites!!.size)
-        for (i in favorites!!.indices) fav[i] = favorites!![i].id.toString() + divider + favorites!![i].login
+        val fav = Array<String>(favorites!!.size, {i -> favorites!![i].id.toString() + divider + favorites!![i].login})
         system.saveStringArray(FAVORITES, fav)
     }
 

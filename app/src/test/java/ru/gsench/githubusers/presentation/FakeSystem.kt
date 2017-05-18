@@ -23,17 +23,16 @@ class FakeSystem : SystemInterface {
         requests.add(req)
     }
 
-    fun doOnBackground(background: function<Void>) {
-        Thread(Runnable { background.run() }).start()
+    override fun doOnBackground(background: ()->Unit) {
+        Thread(Runnable { background() }).start()
     }
 
-    fun doOnForeground(function: function<Void>) {
-        Thread(Runnable { function.run() }).start()
+    override fun doOnForeground(foreground: ()->Unit) {
+        Thread(Runnable { foreground() }).start()
     }
 
     @Throws(IOException::class)
     override fun httpGet(url: URL, params: HttpParams?): Pair<ByteArray, HttpParams> {
-        if (requests == null) return null
         try {
             TimeUnit.SECONDS.sleep(2)
         } catch (e: InterruptedException) {
@@ -43,7 +42,7 @@ class FakeSystem : SystemInterface {
     }
 
     override fun getSavedStringArray(title: String, def: Array<String>?): Array<String> {
-        return arrayOfNulls(0)
+        return Array(0, {""})
     }
 
     override fun saveStringArray(title: String, array: Array<String>) {

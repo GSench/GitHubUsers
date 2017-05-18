@@ -17,7 +17,7 @@ import ru.gsench.githubusers.presentation.view.FakeUserListView
 class UserListInteractorTest {
 
     internal var interactor: UserListInteractor? = null
-    internal var presenter: UserListPresenter
+    internal var presenter: UserListPresenter = null!!
     internal var userListView: FakeUserListView
     internal var system: FakeSystem
 
@@ -106,7 +106,11 @@ class UserListInteractorTest {
     @Before
     fun setUp() {
         system = FakeSystem()
-
+        interactor = UserListInteractor(
+                system,
+                { Assert.assertNotNull(it) },
+                { }
+        )
         presenter = UserListPresenter(interactor!!)
         userListView = FakeUserListView()
         userListView.init()

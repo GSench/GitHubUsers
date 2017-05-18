@@ -27,8 +27,8 @@ public class AnimationManager {
 
     public static void openSearchView(final MainViewHolder mainViewHolder, final function<Void> onAnimationFinish){
         try {
-            final View view = mainViewHolder.background;
-            final View searchImage = mainViewHolder.searchImage;
+            final View view = mainViewHolder.getBackground();
+            final View searchImage = mainViewHolder.getSearchImage();
 
             // get the center for the clipping circle
             final int cx = (searchImage.getLeft() + searchImage.getRight()) / 2;
@@ -47,10 +47,10 @@ public class AnimationManager {
                 @Override
                 public void onAnimationEnd(Animator animator) {
                     try {
-                        mainViewHolder.backgroundFullContainer.setVisibility(View.GONE);
-                        mainViewHolder.backgroundCircle.setX(cx-finalR);
-                        mainViewHolder.backgroundCircle.setY(cy-finalR);
-                        mainViewHolder.backgroundCircle.setVisibility(View.VISIBLE);
+                        mainViewHolder.getBackgroundFullContainer().setVisibility(View.GONE);
+                        mainViewHolder.getBackgroundCircle().setX(cx-finalR);
+                        mainViewHolder.getBackgroundCircle().setY(cy-finalR);
+                        mainViewHolder.getBackgroundCircle().setVisibility(View.VISIBLE);
                         searchImage.setVisibility(View.GONE);
                         startArcMovingAnimation(mainViewHolder, onAnimationFinish);
                     } catch (Throwable t){}
@@ -72,19 +72,19 @@ public class AnimationManager {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     try {
-                        mainViewHolder.helloContent.setVisibility(View.GONE);
+                        mainViewHolder.getHelloContent().setVisibility(View.GONE);
                     } catch (Throwable t){}
                 }
             });
-            mainViewHolder.helloContent.startAnimation(animation1);
+            mainViewHolder.getHelloContent().startAnimation(animation1);
         } catch (Throwable t){}
     }
 
     private static void startArcMovingAnimation(final MainViewHolder viewHolder, final function<Void> onAnimationFinish){
-        int finalX = viewHolder.backgroundCircle.getWidth()/2;
-        int finalY = viewHolder.backgroundCircle.getHeight()/2;
+        int finalX = viewHolder.getBackgroundCircle().getWidth()/2;
+        int finalY = viewHolder.getBackgroundCircle().getHeight()/2;
 
-        ArcAnimator arcAnimator = ArcAnimator.createArcAnimator(viewHolder.backgroundCircle, finalX, finalY, 0, Side.LEFT).setDuration(500);
+        ArcAnimator arcAnimator = ArcAnimator.createArcAnimator(viewHolder.getBackgroundCircle(), finalX, finalY, 0, Side.LEFT).setDuration(500);
         arcAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(com.nineoldandroids.animation.Animator animation) {
@@ -98,15 +98,15 @@ public class AnimationManager {
     }
 
     private static void startSearchViewAnimation(final MainViewHolder viewHolder, final function<Void> onAnimationFinish){
-        int w = viewHolder.backgroundCircle.getWidth();
-        int h = viewHolder.backgroundCircle.getHeight();
+        int w = viewHolder.getBackgroundCircle().getWidth();
+        int h = viewHolder.getBackgroundCircle().getHeight();
         int cx = w/2;
         int cy = h/2;
-        viewHolder.searchViewContainer.addView(viewHolder.searchView);
-        viewHolder.searchView.measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        viewHolder.backgroundContainer.setVisibility(View.GONE);
-        float finalR = viewHolder.searchView.getMeasuredWidth();
-        Animator searchViewAnim = ViewAnimationUtils.createCircularReveal(viewHolder.searchView, cx, cy, w/2, finalR);
+        viewHolder.getSearchViewContainer().addView(viewHolder.getSearchView());
+        viewHolder.getSearchView().measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        viewHolder.getBackgroundContainer().setVisibility(View.GONE);
+        float finalR = viewHolder.getSearchView().getMeasuredWidth();
+        Animator searchViewAnim = ViewAnimationUtils.createCircularReveal(viewHolder.getSearchView(), cx, cy, w/2, finalR);
         searchViewAnim.setInterpolator(new AccelerateDecelerateInterpolator());
         searchViewAnim.setDuration(400);
         searchViewAnim.addListener(new MyAnimatorListener(){

@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(), CoordinatorView {
                 }
             }
         }
-        viewHolder!!.searchView.setOnQueryChangeListener { oldQuery, newQuery -> suggestionsManager!!.suggest(newQuery) }
+        viewHolder!!.searchView.setOnQueryChangeListener { _, newQuery -> suggestionsManager!!.suggest(newQuery) }
         viewHolder!!.searchView.setOnFocusChangeListener(object : FloatingSearchView.OnFocusChangeListener {
             override fun onFocus() {
                 suggestionsManager!!.suggest(viewHolder!!.searchView.query)
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity(), CoordinatorView {
     }
 
     override fun openUser(presenter: UserPresenter) {
-        UserAView(userContainer, presenter).open()
+        UserAView(userContainer!!, presenter).open()
     }
 
     override fun openBrowser(url: URL) {
@@ -112,9 +112,8 @@ class MainActivity : AppCompatActivity(), CoordinatorView {
         userContainer!!.closeView()
     }
 
-    override fun isUserOpened(): Boolean {
-        return userContainer!!.viewOpened()
-    }
+    override val isUserOpened: Boolean
+        get() = userContainer!!.viewOpened()
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         permissionManager!!.onPermissionCallback(requestCode, permissions, grantResults)

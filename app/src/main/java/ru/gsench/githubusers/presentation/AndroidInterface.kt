@@ -26,20 +26,19 @@ import ru.gsench.githubusers.domain.utils.function
 
 class AndroidInterface(private val act: Activity?) : SystemInterface {
 
-    override fun doOnBackground(background: function<Void>) {
-        Thread(Runnable { background.run() }).start()
-
+    override fun doOnBackground(background: ()->Unit) {
+        Thread{background()}.start()
     }
 
-    override fun doOnForeground(function: function<Void>) {
-        act?.runOnUiThread { function.run() }
+    override fun doOnForeground(foreground: ()->Unit) {
+        act?.runOnUiThread{foreground()}
     }
 
     @Throws(IOException::class)
-    override fun httpGet(url: URL, params: HttpParams): Pair<ByteArray, HttpParams> {
+    override fun httpGet(url: URL, params: HttpParams?): Pair<ByteArray, HttpParams> {
         val urlConnection = url.openConnection() as HttpURLConnection
         if (params != null) {
-            for (header in params.headers) {
+            for (header in params.headers!!) {
                 urlConnection.setRequestProperty(header.t, header.u)
             }
         }
@@ -72,14 +71,14 @@ class AndroidInterface(private val act: Activity?) : SystemInterface {
         }
     }
 
-    override fun getSavedStringArray(title: String, def: Array<String>): Array<String> {
+    override fun getSavedStringArray(title: String, def: Array<String>?): Array<String> {
         val defaultArr: Set<String>?
         if (def == null)
             defaultArr = null
         else
             defaultArr = HashSet(Arrays.asList(*def))
         val stringSet = act!!.getSharedPreferences(SPREF, Context.MODE_PRIVATE).getStringSet(title, defaultArr)
-        return stringSet?.toTypedArray<String>()
+        return stringSet.toTypedArray<String>()
     }
 
     override fun saveStringArray(title: String, array: Array<String>) {
@@ -104,31 +103,6 @@ class AndroidInterface(private val act: Activity?) : SystemInterface {
         for (i in byteChain.indices) ret[i] = byteChain[i]
         return ret
     }
-
-    /**
-     * @Override
-     * public String getSavedString(String title, String def) {
-     * return act.getSharedPreferences(SPREF, Context.MODE_PRIVATE).getString(title, def);
-     * }
-     * @Override
-     * public void saveString(String title, String string) {
-     * act.getSharedPreferences(SPREF, Context.MODE_PRIVATE)
-     * .edit()
-     * .putString(title, string)
-     * .commit();
-     * }
-     * @Override
-     * public int getSavedInt(String title, int def) {
-     * return act.getSharedPreferences(SPREF, Context.MODE_PRIVATE).getInt(title, def);
-     * }
-     * @Override
-     * public void saveInt(String title, int i) {
-     * act.getSharedPreferences(SPREF, Context.MODE_PRIVATE)
-     * .edit()
-     * .putInt(title, i)
-     * .commit();
-     * }
-     */
 
     override fun removeSaved(str: String) {
         act!!.getSharedPreferences(SPREF, Context.MODE_PRIVATE)

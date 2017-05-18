@@ -17,55 +17,54 @@ import ru.gsench.githubusers.presentation.presenter.UserPresenter
  * Created by grish on 09.05.2017.
  */
 
-class UserInteractor(private val system: SystemInterface, private val user: UserModel, private val openInBrowser: function<GitHubUserShort>, private val onFavoriteChanged: function<UserModel>, private val openRepo: function<GitHubRepository>) : UserUseCase {
+class UserInteractor(private val system: SystemInterface,
+                     override val user: UserModel,
+                     private val openInBrowser: (GitHubUserShort)->Unit,
+                     private val onFavoriteChanged: (UserModel)->Unit,
+                     private val openRepo: (GitHubRepository)->Unit) : UserUseCase {
 
     override fun getUser(presenter: UserPresenter) {
         system.doOnBackground(
-                function<Void> {
-                    var callback: function<Void>
+                {
+                    var callback: ()->Unit
                     try {
                         val url = user.url
                         val result = String(system.httpGet(url, null).t)
                         val user = ResponseParser.parseUser(result)
-                        callback = function<Void> { presenter.onUserReceived(user) }
+                        callback = { presenter.onUserReceived(user) }
                     } catch (e: IOException) {
                         e.printStackTrace()
-                        callback = function<Void> { presenter.showLoadingError() }
+                        callback = { presenter.showLoadingError() }
                     } catch (e: ResponseParser.ParseException) {
                         e.printStackTrace()
-                        callback = function<Void> { presenter.showParseError() }
+                        callback = { presenter.showParseError() }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        callback = function<Void> { presenter.showUnexpectedError() }
+                        callback = { presenter.showUnexpectedError() }
                     }
-
                     system.doOnForeground(callback)
                 }
         )
     }
 
-    override fun getUser(): UserModel {
-        return user
-    }
-
     override fun getRepositories(presenter: UserPresenter) {
         system.doOnBackground(
-                function<Void> {
-                    var callback: function<Void>
+                {
+                    var callback: ()-> Unit
                     try {
                         val url = user.repositories
                         val result = String(system.httpGet(url, null).t)
                         val repos = ResponseParser.parseRepositories(result)
-                        callback = function<Void> { presenter.onReposReceived(repos) }
+                        callback = { presenter.onReposReceived(repos) }
                     } catch (e: IOException) {
                         e.printStackTrace()
-                        callback = function<Void> { presenter.showLoadingError() }
+                        callback = { presenter.showLoadingError() }
                     } catch (e: ResponseParser.ParseException) {
                         e.printStackTrace()
-                        callback = function<Void> { presenter.showParseError() }
+                        callback = { presenter.showParseError() }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        callback = function<Void> { presenter.showUnexpectedError() }
+                        callback = { presenter.showUnexpectedError() }
                     }
 
                     system.doOnForeground(callback)
@@ -78,14 +77,14 @@ class UserInteractor(private val system: SystemInterface, private val user: User
     }
 
     override fun openInBrowser() {
-        openInBrowser.run(user)
+        openInBrowser(user)
     }
 
     override fun notifyFavorChanged(userShort: UserModel) {
-        onFavoriteChanged.run(user)
+        onFavoriteChanged(user)
     }
 
     override fun onRepoClick(repository: GitHubRepository) {
-        openRepo.run(repository)
+        openRepo(repository)
     }
 }
